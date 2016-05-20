@@ -163,8 +163,15 @@ public class Controller {
         //for (Livre book:livres) model.addElement(book);
         return  model;
     }
+    public DefaultListModel<Livre> doFindLivrePeriode(String debut, String fin){
+        List<Livre> livres = livreDAO.chargerPeriode(debut, fin);
+        DefaultListModel<Livre> model = new DefaultListModel<>();
+        livres.forEach(model::addElement);
+        return model;
+    }
     public int doFindReturn(String xIdEmprunt, String xIdLivre) {
         return empruntDAO.ChercherRetour(xIdEmprunt, xIdLivre);
     }
     public void doReturnBook(String xIdEmprunt, String xIdLivre){ empruntDAO.ChangerRetour(xIdEmprunt, xIdLivre);}
+
 }

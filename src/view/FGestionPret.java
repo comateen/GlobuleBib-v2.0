@@ -7,8 +7,11 @@ import model.reader.Lecteur;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ import java.util.List;
  * Created by jof on 02/04/2016.
  */
 public class FGestionPret extends AppFrame {
-    private DefaultTableModel TEmpruntModel;
+    private DefaultTableModel TPeriodeModel;
     private DefaultTableModel TELModel;
     private DefaultTableModel TLivreModel;
     private final Controller controller = new Controller();
@@ -28,6 +31,7 @@ public class FGestionPret extends AppFrame {
     private DefaultListModel<Livre> listlivreemprunt = new DefaultListModel<>();
     private DefaultListModel<Lecteur> ListRechercheLecteur = new DefaultListModel<>();
     private DefaultListModel<Lecteur> ListRechercheLivre = new DefaultListModel<>();
+    private DefaultListModel<Livre> listPeriode = new DefaultListModel<>();
 
     private JPanel Container;
     private JTabbedPane TPPret;
@@ -72,10 +76,26 @@ public class FGestionPret extends AppFrame {
     private JTextField TRechercheLivre;
     private JButton BRetour;
     private JPanel Global;
+    private JLabel Lperiode;
+    private JLabel LDébut;
+    private JLabel LFin;
+    private JLabel Lnbr;
+    private JTextField TNbrLivres;
+    private JButton BRechercher;
+    private JFormattedTextField TDebutPeriode;
+    private JFormattedTextField TFinPeriode;
+    private JLabel LListeLivre;
+    private JTable TablePeriode;
+    private JButton BPPremier;
+    private JButton BPPrecedent;
+    private JButton BPSuivant;
+    private JButton BPDernier;
+    private JTextField TNbrSortieLivre;
     private LocalDate date, dateRetour;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private int posLivre =0;
     private int posEmprunt=0;
+    private int posPeriode=0;
 
     @Override
     JPanel getContainer() {
@@ -110,6 +130,14 @@ public class FGestionPret extends AppFrame {
         modelEmprunt = controller.getModelEmprunt();
         TDateEmprunt.setText(String.valueOf(date.now().format(formatter)));
         CalculDateRetour();
+        try {
+            MaskFormatter mf = new MaskFormatter("##-##-####");
+            DefaultFormatterFactory form = new DefaultFormatterFactory(mf);
+            TDebutPeriode.setFormatterFactory(form);
+            TFinPeriode.setFormatterFactory(form);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         RemplirTableLivre();
 
@@ -149,6 +177,18 @@ public class FGestionPret extends AppFrame {
         BESuivant.addActionListener(actionEvent -> ESuivant());
         BEDernier.addActionListener(actionEvent -> EDernier());
         BProlonger.addActionListener(actionEvent -> Prolonger());
+        BPPremier.addActionListener(actionEvent -> PPremier());
+        BPPrecedent.addActionListener(actionEvent -> PPrecedent());
+        BPSuivant.addActionListener(actionEvent -> PSuivant());
+        BPDernier.addActionListener(actionEvent -> PDernier());
+        TablePeriode.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                ClicTablePeriode();
+            }
+        });
+        BRechercher.addActionListener(actionEvent -> RechercherPeriode());
     }
 
     private void RemplirChamps(int mode){
@@ -270,6 +310,12 @@ public class FGestionPret extends AppFrame {
         }
     }
 
+    private void ClicTablePeriode(){
+        if (TablePeriode.getRowCount()>=1){
+            posPeriode = TablePeriode.getSelectedRow();
+        }
+    }
+
     private void LPremier(){
         posLivre =0;
         TableLivres.setRowSelectionInterval(posLivre, posLivre);
@@ -326,6 +372,34 @@ public class FGestionPret extends AppFrame {
         TableEmprunts.setRowSelectionInterval(posEmprunt, posEmprunt);
     }
 
+    private void PPremier(){
+        posPeriode = 0;
+        TablePeriode.setRowSelectionInterval(posPeriode, posPeriode);
+    }
+
+    private void PPrecedent(){
+        if (posPeriode == 0){
+            posPeriode = TablePeriode.getRowCount()-1;
+        } else {
+            posPeriode = posPeriode-1;
+        }
+        TablePeriode.setRowSelectionInterval(posPeriode, posPeriode);
+    }
+
+    private void PSuivant(){
+        if (posPeriode == TablePeriode.getRowCount()-1){
+            posPeriode = 0;
+        } else {
+            posPeriode = posPeriode+1;
+        }
+        TablePeriode.setRowSelectionInterval(posPeriode, posPeriode);
+    }
+
+    private void PDernier(){
+        posPeriode = TablePeriode.getRowCount()-1;
+        TablePeriode.setRowSelectionInterval(posPeriode, posPeriode);
+    }
+
     private void AjoutLivreEmprunt(){
         int exist =0;
         if (modellivre.getElementAt(TableLivres.getSelectedRow()).getStatutLivre()==0){
@@ -379,11 +453,11 @@ public class FGestionPret extends AppFrame {
                 return false;
             }
         };
-        TLivreModel.addColumn("Identifiant");
         TLivreModel.addColumn("Titre");
+        TLivreModel.addColumn("Identifiant");
         TableLivres.setModel(TLivreModel);
         for (int i = 0; i<modellivre.size(); i++){
-            Object [] livre={modellivre.getElementAt(i).getIdLivre(), modellivre.getElementAt(i).getTitreLivre()};
+            Object [] livre={modellivre.getElementAt(i).getTitreLivre(), modellivre.getElementAt(i).getIdLivre()};
             TLivreModel.addRow(livre);
         }
     }
@@ -503,6 +577,38 @@ public class FGestionPret extends AppFrame {
         modelEmprunt = controller.getModelEmprunt();
         JOptionPane.showMessageDialog(null, "L'emprunt à été prolongé",
                 "Information", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void RechercherPeriode(){
+        int test =0;
+        String debut = LocalDate.parse(TDebutPeriode.getText(), formatter).toString();
+        String fin = LocalDate.parse(TFinPeriode.getText(), formatter).toString();
+        listPeriode = controller.doFindLivrePeriode(debut, fin);
+        TPeriodeModel = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        TablePeriode.setModel(TPeriodeModel);
+        for (int i = 0; i<listPeriode.size(); i++){
+            if (i==0){
+                Object[] livre={listPeriode.getElementAt(i).getTitreLivre()};
+                TPeriodeModel.addRow(livre);
+            } else {
+                for (int j = 0; j<i; j++){
+                    if (listPeriode.getElementAt(i).getIdLivre()==listPeriode.getElementAt(j).getIdLivre()){
+                        test=1;
+                    }
+                }
+                if (test!=1){
+                    Object[] livre={listPeriode.getElementAt(i).getTitreLivre()};
+                    TPeriodeModel.addRow(livre);
+                }
+            }
+        }
+        System.out.println(listPeriode.size());
+        System.out.println(TPeriodeModel.getRowCount());
     }
 
     private Emprunt getData(){

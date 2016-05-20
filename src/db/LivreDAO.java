@@ -197,7 +197,7 @@ public class LivreDAO extends DAO<Livre>{
         }
         try (ResultSet rs = db.getConnection().prepareStatement(sql).executeQuery()){
             List<Livre> books = new ArrayList<>();
-            logger.log(Level.INFO, "query is " + condition);
+            logger.log(Level.INFO, "query is " + sql);
             while(rs.next()){
                 books.add(new Livre(rs));
             }
@@ -205,6 +205,22 @@ public class LivreDAO extends DAO<Livre>{
             return books;
         } catch (SQLException e) {
             logger.log(Level.WARNING, e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Livre> chargerPeriode(String debut, String fin){
+        String sql = String.format("SELECT * FROM ((t_livres INNER JOIN t_empruntlivre ON t_livres.Pk_Livre=t_empruntlivre.Fk_Livre) INNER JOIN t_emprunts ON t_empruntlivre.Fk_Emprunt=t_emprunts.Pk_Emprunt) WHERE t_emprunts.Date_Emprunt>=%s AND t_emprunts.Date_Emprunt<=%s", debut, fin);
+        try (ResultSet rs = db.getConnection().prepareStatement(sql).executeQuery()){
+            List<Livre> books = new ArrayList<>();
+            logger.log(Level.INFO, "query is " + sql);
+            while(rs.next()){
+                books.add(new Livre(rs));
+            }
+            Collections.sort(books);
+            return books;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }
