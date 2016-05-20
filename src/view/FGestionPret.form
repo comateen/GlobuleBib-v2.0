@@ -737,7 +737,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <grid id="31767" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="31767" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
@@ -758,7 +758,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <text value="Début de la période :"/>
+                              <text value="Date de début :"/>
                             </properties>
                           </component>
                           <component id="7dc3d" class="javax.swing.JLabel" binding="LFin">
@@ -770,7 +770,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <text value="Fin de la période :"/>
+                              <text value="Date de fin :"/>
                             </properties>
                           </component>
                           <component id="ea562" class="javax.swing.JLabel" binding="Lperiode">
@@ -782,7 +782,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <text value="Période recherchée :"/>
+                              <text value="Période de recherche"/>
                             </properties>
                           </component>
                           <component id="c4ad5" class="javax.swing.JFormattedTextField" binding="TDebutPeriode">
@@ -822,12 +822,37 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <text value="Nombre de sorties :"/>
+                              <text value="Nombre de prêts :"/>
                             </properties>
                           </component>
-                          <component id="ac31" class="javax.swing.JTextField" binding="TNbrLivres">
+                          <component id="ac31" class="javax.swing.JTextField" binding="TNbrPret">
                             <constraints>
                               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <minimum-size width="150" height="-1"/>
+                                <preferred-size width="150" height="-1"/>
+                                <maximum-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <editable value="false"/>
+                              <text value=""/>
+                            </properties>
+                          </component>
+                          <component id="c0987" class="javax.swing.JLabel" binding="LTotalLivres">
+                            <constraints>
+                              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                                <minimum-size width="150" height="-1"/>
+                                <preferred-size width="150" height="-1"/>
+                                <maximum-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <text value="Nombre de livres sortis :"/>
+                            </properties>
+                          </component>
+                          <component id="19a7b" class="javax.swing.JTextField" binding="TTotalLivre">
+                            <constraints>
+                              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <minimum-size width="150" height="-1"/>
                                 <preferred-size width="150" height="-1"/>
                                 <maximum-size width="150" height="-1"/>
@@ -857,9 +882,9 @@
                           <component id="2cd38" class="javax.swing.JButton" binding="BRechercher">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                                <minimum-size width="95" height="23"/>
-                                <preferred-size width="95" height="23"/>
-                                <maximum-size width="95" height="23"/>
+                                <minimum-size width="105" height="23"/>
+                                <preferred-size width="105" height="23"/>
+                                <maximum-size width="105" height="23"/>
                               </grid>
                             </constraints>
                             <properties>
@@ -934,7 +959,7 @@
                                   </grid>
                                 </constraints>
                                 <properties>
-                                  <text value="Liste des livres emprunté:"/>
+                                  <text value="Liste des livres empruntés :"/>
                                 </properties>
                               </component>
                             </children>

@@ -130,4 +130,19 @@ public class EmpruntDAO extends DAO<Emprunt> {
             logger.log(Level.WARNING, e.getMessage());
         }
     }
+
+    public int compter(String debut, String fin){
+        int count = -1;
+        String sql = String.format("SELECT COUNT(t_emprunts.Pk_Emprunt) FROM t_emprunts WHERE t_emprunts.Date_Emprunt>='%s' AND t_emprunts.Date_Emprunt<='%s'", debut, fin);
+        try (ResultSet rs = db.getConnection().prepareStatement(sql).executeQuery()){
+            logger.log(Level.INFO, "query is " + sql);
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+            return count;
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, e.getMessage());
+            return -1;
+        }
+    }
 }

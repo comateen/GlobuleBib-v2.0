@@ -80,7 +80,7 @@ public class FGestionPret extends AppFrame {
     private JLabel LDébut;
     private JLabel LFin;
     private JLabel Lnbr;
-    private JTextField TNbrLivres;
+    private JTextField TNbrPret;
     private JButton BRechercher;
     private JFormattedTextField TDebutPeriode;
     private JFormattedTextField TFinPeriode;
@@ -91,6 +91,8 @@ public class FGestionPret extends AppFrame {
     private JButton BPSuivant;
     private JButton BPDernier;
     private JTextField TNbrSortieLivre;
+    private JLabel LTotalLivres;
+    private JTextField TTotalLivre;
     private LocalDate date, dateRetour;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private int posLivre =0;
@@ -313,7 +315,19 @@ public class FGestionPret extends AppFrame {
     private void ClicTablePeriode(){
         if (TablePeriode.getRowCount()>=1){
             posPeriode = TablePeriode.getSelectedRow();
+            TNbrSortieLivre.setText(String.valueOf(NbrSortie(TablePeriode.getValueAt(posPeriode, 0).toString())));
         }
+    }
+
+    private int NbrSortie(String titre){
+        int count=0;
+        System.out.println(listPeriode.size());
+        for (int i = 0; i<listPeriode.size(); i++){
+            if (listPeriode.getElementAt(i).getTitreLivre().equals(titre)){
+                count++;
+            }
+        }
+        return count;
     }
 
     private void LPremier(){
@@ -442,8 +456,6 @@ public class FGestionPret extends AppFrame {
             Object [] livre={listlivreemprunt.getElementAt(i).getTitreLivre()};
             TELModel.addRow(livre);
         }
-
-
     }
 
     private void RemplirTableLivre(){
@@ -580,35 +592,34 @@ public class FGestionPret extends AppFrame {
     }
 
     private void RechercherPeriode(){
-        int test =0;
-        String debut = LocalDate.parse(TDebutPeriode.getText(), formatter).toString();
-        String fin = LocalDate.parse(TFinPeriode.getText(), formatter).toString();
-        listPeriode = controller.doFindLivrePeriode(debut, fin);
-        TPeriodeModel = new DefaultTableModel(){
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        TablePeriode.setModel(TPeriodeModel);
-        for (int i = 0; i<listPeriode.size(); i++){
-            if (i==0){
-                Object[] livre={listPeriode.getElementAt(i).getTitreLivre()};
-                TPeriodeModel.addRow(livre);
-            } else {
-                for (int j = 0; j<i; j++){
-                    if (listPeriode.getElementAt(i).getIdLivre()==listPeriode.getElementAt(j).getIdLivre()){
-                        test=1;
-                    }
+        try {
+            String debut = LocalDate.parse(TDebutPeriode.getText(), formatter).toString();
+            String fin = LocalDate.parse(TFinPeriode.getText(), formatter).toString();
+            listPeriode = controller.doFindLivrePeriode(debut, fin);
+            TPeriodeModel = new DefaultTableModel(){
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
                 }
-                if (test!=1){
+            };
+            TPeriodeModel.addColumn("Titre");
+            TablePeriode.setModel(TPeriodeModel);
+            for (int i = 0; i<listPeriode.size(); i++){
+                if (i>0){
+                    if (listPeriode.getElementAt(i).getIdLivre()!=listPeriode.getElementAt(i-1).getIdLivre()){
+                        Object[] livre={listPeriode.getElementAt(i).getTitreLivre()};
+                        TPeriodeModel.addRow(livre);
+                    }
+                } else {
                     Object[] livre={listPeriode.getElementAt(i).getTitreLivre()};
                     TPeriodeModel.addRow(livre);
                 }
             }
+            TNbrPret.setText(String.valueOf(controller.doCountLoan(debut, fin)));
+            TTotalLivre.setText(String.valueOf(listPeriode.size()));
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
         }
-        System.out.println(listPeriode.size());
-        System.out.println(TPeriodeModel.getRowCount());
     }
 
     private Emprunt getData(){

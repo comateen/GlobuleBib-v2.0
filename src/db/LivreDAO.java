@@ -210,7 +210,7 @@ public class LivreDAO extends DAO<Livre>{
     }
 
     public List<Livre> chargerPeriode(String debut, String fin){
-        String sql = String.format("SELECT * FROM ((t_livres INNER JOIN t_empruntlivre ON t_livres.Pk_Livre=t_empruntlivre.Fk_Livre) INNER JOIN t_emprunts ON t_empruntlivre.Fk_Emprunt=t_emprunts.Pk_Emprunt) WHERE t_emprunts.Date_Emprunt>=%s AND t_emprunts.Date_Emprunt<=%s", debut, fin);
+        String sql = String.format("SELECT * FROM ((t_livres INNER JOIN t_empruntlivre ON t_livres.Pk_Livre=t_empruntlivre.Fk_Livre) INNER JOIN t_emprunts ON t_empruntlivre.Fk_Emprunt=t_emprunts.Pk_Emprunt) WHERE t_emprunts.Date_Emprunt>='%s' AND t_emprunts.Date_Emprunt<='%s'", debut, fin);
         try (ResultSet rs = db.getConnection().prepareStatement(sql).executeQuery()){
             List<Livre> books = new ArrayList<>();
             logger.log(Level.INFO, "query is " + sql);
@@ -220,7 +220,7 @@ public class LivreDAO extends DAO<Livre>{
             Collections.sort(books);
             return books;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, e.getMessage());
             return null;
         }
     }

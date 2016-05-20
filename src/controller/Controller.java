@@ -173,5 +173,8 @@ public class Controller {
         return empruntDAO.ChercherRetour(xIdEmprunt, xIdLivre);
     }
     public void doReturnBook(String xIdEmprunt, String xIdLivre){ empruntDAO.ChangerRetour(xIdEmprunt, xIdLivre);}
+    public int doCountLoan(String debut, String fin){
+        return empruntDAO.compter(debut, fin);
+    }
 
 }
