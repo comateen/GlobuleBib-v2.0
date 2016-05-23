@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Livre implements Comparable<Livre>{
     private String isbnLivre, titreLivre, sectionLivre;
-    private int idLivre, idAuteur, idCollection, idLocalisation, idSujet, idTheme, statutLivre;
+    private int idLivre, idAuteur, idEditeur, idLocalisation, idSujet, idTheme, statutLivre;
     private List<Auteur> auteurs;
     private List<Sujet> sujets;
 
@@ -30,7 +30,7 @@ public class Livre implements Comparable<Livre>{
         sectionLivre =Section;
         statutLivre=Statut;
         auteurs =Aut;
-        idCollection =IdCol;
+        idEditeur =IdCol;
         idLocalisation =IdLoca;
         sujets =suj;
         idTheme =IdThem;
@@ -43,7 +43,7 @@ public class Livre implements Comparable<Livre>{
         sectionLivre =Section;
         statutLivre=Statut;
         auteurs =Aut;
-        idCollection =IdCol;
+        idEditeur =IdCol;
         idLocalisation =IdLoca;
         sujets =suj;
         idTheme =IdThem;
@@ -55,7 +55,7 @@ public class Livre implements Comparable<Livre>{
         titreLivre = set.getString(LivreDAO.COL_Titre);
         sectionLivre = set.getString(LivreDAO.COL_SECTION);
         statutLivre = set.getInt(LivreDAO.COL_STATUT);
-        idCollection = set.getInt(LivreDAO.COL_xID_Collection);
+        idEditeur = set.getInt(LivreDAO.COL_xID_Editeur);
         idLocalisation = set.getInt(LivreDAO.COL_xID_Localisation);
         idTheme = set.getInt(LivreDAO.COL_xID_Theme);
     }
@@ -86,8 +86,8 @@ public class Livre implements Comparable<Livre>{
         return idAuteur;
     }
 
-    public int getIdCollection() {
-        return idCollection;
+    public int getIdEditeur() {
+        return idEditeur;
     }
 
     public int getIdLocalisation() {
@@ -137,8 +137,8 @@ public class Livre implements Comparable<Livre>{
         idAuteur = IdAut;
     }
 
-    public void setIdCollection(int IdCol) {
-        idCollection = IdCol;
+    public void setIdEditeur(int IdCol) {
+        idEditeur = IdCol;
     }
 
     public void setIdLocalisation(int IdLoca) {

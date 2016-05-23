@@ -191,6 +191,8 @@ public class FGestionPret extends AppFrame {
             }
         });
         BRechercher.addActionListener(actionEvent -> RechercherPeriode());
+
+
     }
 
     private void RemplirChamps(int mode){
@@ -242,7 +244,10 @@ public class FGestionPret extends AppFrame {
 
     private void RechercherLecteur(int p){
         TREmprunt.setText("");
+        String[] lecteurs = new String[ListRechercheLecteur.size()];
+        CBLecteur.setModel(new DefaultComboBoxModel(lecteurs));
         modellecteur = controller.getModel();
+        ListRechercheLecteur = new DefaultListModel<>();
         for (int i = 0; i < modellecteur.size(); i++){
             if (modellecteur.getElementAt(i).getIdLecteur()==p){
                 ListRechercheLecteur.addElement(modellecteur.elementAt(i));
@@ -510,7 +515,7 @@ public class FGestionPret extends AppFrame {
         if (TREmprunt.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Veuillez entrer un numéro d'emprunt", "Attention", JOptionPane.WARNING_MESSAGE);
         } else {
-            Nettoyerchamps(); //méthode qui remet tous les champs du fromulaire à leur valeur par défaut
+            Nettoyerchamps(); //méthode qui remet tous les champs du formulaire à leur valeur par défaut
             listlivreemprunt = controller.doFindLivre(4, TREmprunt.getText());
             TELModel = new DefaultTableModel(){
                 @Override
@@ -522,7 +527,7 @@ public class FGestionPret extends AppFrame {
             TableEmprunts.setModel(TELModel);
             if (listlivreemprunt.size()>0){
                 for (int i = 0; i<modelEmprunt.size(); i++){
-                    if (Integer.valueOf(TREmprunt.getText())==modelEmprunt.getElementAt(i).getIdEmprunt()){
+                    if (TREmprunt.getText().equals(String.valueOf(modelEmprunt.getElementAt(i).getIdEmprunt()))){
                         for (int j=0; j<listlivreemprunt.size(); j++){
                             int retour = controller.doFindReturn(TREmprunt.getText(), String.valueOf(listlivreemprunt.getElementAt(j).getIdLivre()));
                             if (retour==0){

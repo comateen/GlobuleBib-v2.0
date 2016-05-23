@@ -17,7 +17,7 @@ public abstract class AppFrame extends JFrame{
 
     void init(){
         this.setContentPane(getContainer()/*new FGestionDonnees()*/);
-        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
         //this.setLocation(0,0);
     }

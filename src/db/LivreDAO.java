@@ -19,21 +19,21 @@ public class LivreDAO extends DAO<Livre>{
     public static final String COL_Titre = "Titre_Livre";
     public static final String COL_SECTION = "Section_Livre";
     public static final String COL_STATUT = "Statut_Livre";
-    public static final String COL_xID_Collection = "Fk_Collection";
+    public static final String COL_xID_Editeur = "Fk_Editeur";
     public static final String COL_xID_Localisation = "Fk_Localisation";
     public static final String COL_xID_Theme = "Fk_Theme";
 
 
     @Override
     public void ajouter(Livre book) {
-        String sql = "INSERT INTO t_livres(ISBN_Livre, Titre_Livre, Section_Livre, Statut_Livre, Fk_Collection, Fk_Localisation, Fk_Theme) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO t_livres(ISBN_Livre, Titre_Livre, Section_Livre, Statut_Livre, Fk_Editeur, Fk_Localisation, Fk_Theme) VALUES (?, ?, ?, ?, ?, ?, ?)";
         int pk = 0;
         try (PreparedStatement st = db.getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
             st.setString(1, book.getIsbnLivre());
             st.setString(2, book.getTitreLivre());
             st.setString(3, book.getSectionLivre());
             st.setInt(4, book.getStatutLivre());
-            st.setInt(5, book.getIdCollection());
+            st.setInt(5, book.getIdEditeur());
             st.setInt(6, book.getIdLocalisation());
             st.setInt(7, book.getIdTheme());
             st.executeUpdate();
@@ -112,13 +112,13 @@ public class LivreDAO extends DAO<Livre>{
                 logger.log(Level.WARNING, e.getMessage());
             }
         }
-        String sql = "UPDATE t_livres SET ISBN_Livre = ?, Titre_Livre = ?, Section_Livre = ?, Statut_Livre = ?, Fk_Collection = ?, Fk_Localisation = ?, Fk_Theme = ? WHERE Pk_Livre = ?";
+        String sql = "UPDATE t_livres SET ISBN_Livre = ?, Titre_Livre = ?, Section_Livre = ?, Statut_Livre = ?, Fk_Editeur = ?, Fk_Localisation = ?, Fk_Theme = ? WHERE Pk_Livre = ?";
         try (PreparedStatement st = db.getConnection().prepareStatement(sql)){
             st.setString(1, book.getIsbnLivre());
             st.setString(2, book.getTitreLivre());
             st.setString(3, book.getSectionLivre());
             st.setInt(4, book.getStatutLivre());
-            st.setInt(5, book.getIdCollection());
+            st.setInt(5, book.getIdEditeur());
             st.setInt(6, book.getIdLocalisation());
             st.setInt(7, book.getIdTheme());
             st.setInt(8, book.getIdLivre());

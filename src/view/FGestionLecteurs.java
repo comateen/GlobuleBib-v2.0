@@ -87,8 +87,8 @@ class FGestionLecteurs extends AppFrame {
         MenuBar.add(fichier);
         JMenuItem nouveau = new JMenuItem("Nouveau");
         fichier.add(nouveau);
-        JMenuItem Deco = new JMenuItem("Se déconnecter");
-        fichier.add(Deco);
+        /*JMenuItem Deco = new JMenuItem("Se déconnecter");
+        fichier.add(Deco);*/
         JMenuItem Exit = new JMenuItem("Quitter");
         fichier.add(Exit);
         model = controller.getModel();
@@ -107,7 +107,7 @@ class FGestionLecteurs extends AppFrame {
 
         //Les différents listener nécessaire
         nouveau.addActionListener(actionEvent -> Nettoyerchamps());
-        Deco.addActionListener(actionEvent -> Deconnexion());
+        //Deco.addActionListener(actionEvent -> Deconnexion());
         Exit.addActionListener(actionEvent -> Quitter());
         BInscription.addActionListener(actionEvent -> CalculDateInsription());
         BRenouvellement.addActionListener(actionEvent -> CalculDateRenouvellement());
@@ -135,6 +135,15 @@ class FGestionLecteurs extends AppFrame {
                 RemplirCBLoc();
             }
         });
+
+        /*Container.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                modellocalite = controller.getModelLoc();
+                RemplirCBLoc();
+            }
+        });*/
     }
 
     //Remplir le jtable
@@ -385,12 +394,12 @@ class FGestionLecteurs extends AppFrame {
     //Listeners
 
     //se déconnecter et revenir à Fdépart
-    private void Deconnexion(){
+    /*private void Deconnexion(){
         FGestionLecteurs frame = FGestionLecteurs.this;
         frame.close();
         Fdepart start = new Fdepart();
         start.setVisible(true);
-    }
+    }*/
 
     //Quitter le programme
     private void Quitter() {

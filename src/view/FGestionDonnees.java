@@ -85,8 +85,8 @@ public class FGestionDonnees extends AppFrame {
         this.setJMenuBar(MenuBar);
         JMenu fichier = new JMenu("Fichier");
         MenuBar.add(fichier);
-        JMenuItem Deco = new JMenuItem("Se déconnecter");
-        fichier.add(Deco);
+        /*JMenuItem Deco = new JMenuItem("Se déconnecter");
+        fichier.add(Deco);*/
         JMenuItem Exit = new JMenuItem("Quitter");
         fichier.add(Exit);
         JMenu choix = new JMenu("Choix du type de données");
@@ -118,7 +118,7 @@ public class FGestionDonnees extends AppFrame {
         localite.addActionListener(actionEvent -> ChxLocalite());
         sujet.addActionListener(actionEvent -> ChxSujet());
         themes.addActionListener(actionEvent -> ChxThemes());
-        Deco.addActionListener(actionEvent -> Deconnexion());
+        //Deco.addActionListener(actionEvent -> Deconnexion());
         Exit.addActionListener(actionEvent -> Quitter());
 
         BPremier.addActionListener(actionEvent -> Premier());
@@ -311,7 +311,7 @@ public class FGestionDonnees extends AppFrame {
                 case EDITEUR:
                     listlivre = controller.getModelLivre();
                     for (int i = 0; i < listlivre.size(); i++) {
-                        if (Integer.valueOf(Tid.getText()) == listlivre.getElementAt(i).getIdCollection()) {
+                        if (Integer.valueOf(Tid.getText()) == listlivre.getElementAt(i).getIdEditeur()) {
                             utiliser = false;
                         }
                     }
@@ -832,12 +832,12 @@ public class FGestionDonnees extends AppFrame {
     }
 
     //se déconnecter et revenir à Fdépart
-    private void Deconnexion() {
+    /*private void Deconnexion() {
         FGestionDonnees frame = FGestionDonnees.this;
         frame.close();
         Fdepart start = new Fdepart();
         start.setVisible(true);
-    }
+    }*/
 
     //Quitter le programme
     private void Quitter() {

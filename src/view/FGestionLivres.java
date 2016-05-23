@@ -91,8 +91,8 @@ class FGestionLivres extends AppFrame {
         MenuBar.add(fichier);
         JMenuItem nouveau = new JMenuItem("Nouveau");
         fichier.add(nouveau);
-        JMenuItem Deco = new JMenuItem("Se déconnecter");
-        fichier.add(Deco);
+        /*JMenuItem Deco = new JMenuItem("Se déconnecter");
+        fichier.add(Deco);*/
         JMenuItem Exit = new JMenuItem("Quitter");
         fichier.add(Exit);
         modellivre = controller.getModelLivre();
@@ -134,7 +134,7 @@ class FGestionLivres extends AppFrame {
             }
         });
         nouveau.addActionListener(actionEvent -> NouveauLecteur());
-        Deco.addActionListener(actionEvent -> Deconnexion());
+        //Deco.addActionListener(actionEvent -> Deconnexion());
         Exit.addActionListener(actionEvent -> Quitter());
         CBEditeur.addFocusListener(new FocusAdapter() {
             @Override
@@ -365,7 +365,7 @@ class FGestionLivres extends AppFrame {
         TSectionLivre.setText(modellivre.getElementAt(p).getSectionLivre());
         CBStatut.setSelectedIndex(modellivre.getElementAt(p).getStatutLivre());
         for (int i = 0; i< modelediteur.size(); i++){
-            if (modelediteur.getElementAt(i).getIdEditeur()==modellivre.getElementAt(p).getIdCollection()){
+            if (modelediteur.getElementAt(i).getIdEditeur()==modellivre.getElementAt(p).getIdEditeur()){
                 CBEditeur.setSelectedIndex(i+1);
             }
         }
@@ -480,7 +480,7 @@ class FGestionLivres extends AppFrame {
         livre.setTitreLivre(TTitreLivre.getText().toLowerCase());
         livre.setSectionLivre(TSectionLivre.getText().toLowerCase());
         livre.setStatutLivre(CBStatut.getSelectedIndex());
-        livre.setIdCollection(modelediteur.getElementAt(CBEditeur.getSelectedIndex()-1).getIdEditeur());
+        livre.setIdEditeur(modelediteur.getElementAt(CBEditeur.getSelectedIndex()-1).getIdEditeur());
         livre.setIdTheme(modeltheme.getElementAt(CBTheme.getSelectedIndex()-1).getIdTheme());
         livre.setIdLocalisation(modellocalisation.getElementAt(CBLocalisation.getSelectedIndex()-1).getIdLocalisation());
         for (int i = 0; i < listlivreauteur.size(); i++) {
@@ -501,12 +501,12 @@ class FGestionLivres extends AppFrame {
     }
 
     //se déconnecter et revenir à Fdépart
-    private void Deconnexion(){
+    /*private void Deconnexion(){
         FGestionLivres frame = FGestionLivres.this;
         frame.close();
         Fdepart start = new Fdepart();
         start.setVisible(true);
-    }
+    }*/
 
     //Quitter le programme
     private void Quitter (){
