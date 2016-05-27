@@ -142,13 +142,7 @@ public class FGestionDonnees extends AppFrame {
             } else {
                 switch (chx) {
                     case AUTEUR:
-                        for (int i = 0; i < modelautor.size(); i++) {
-                            if (TDonnee1.getText().equals(modelautor.getElementAt(i).getNomAuteur()) && TDonnee2.getText().equals(modelautor.getElementAt(i).getPrenomAuteur())) {
-                                JOptionPane.showMessageDialog(null, "Cet auteur existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
-                                exist = 1;
-                            }
-                        }
-                        if (exist != 1) {
+                        if (Exist() != 1) {
                             try { // try catch pour récupéré l'execption si la date n'est pas valide
                                 controller.doSave(getDataAuteur());
                                 JOptionPane.showMessageDialog(null, "Vous avez ajouté un auteur", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -159,68 +153,38 @@ public class FGestionDonnees extends AppFrame {
                         }
                         break;
                     case EDITEUR:
-                        for (int i = 0; i < modelediteur.size(); i++) {
-                            if (TDonnee1.getText().equals(modelediteur.getElementAt(i).getNomEditeur())) {
-                                JOptionPane.showMessageDialog(null, "Cet éditeur existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
-                                exist = 1;
-                            }
-                        }
-                        if (exist != 1) {
+                        if (Exist() != 1) {
                             controller.doSave(getDataCollection());
                             modelediteur = controller.getModelEditeur();
                             JOptionPane.showMessageDialog(null, "Vous avez ajouté un éditeur", "Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                         break;
                     case LOCALISATION:
-                        for (int i = 0; i < modellocalisation.size(); i++) {
-                            if (TDonnee1.getText().equals(modellocalisation.getElementAt(i).getNomLocalisation())) {
-                                JOptionPane.showMessageDialog(null, "Cette localisation existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
-                                exist = 1;
-                            }
-                        }
-                        if (exist != 1) {
+                        if (Exist() != 1) {
                             controller.doSave(getDataLocalisation());
                             modellocalisation = controller.getModelLocalisation();
                             JOptionPane.showMessageDialog(null, "Vous avez ajouté une localisation", "Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                         break;
                     case LOCALITE:
-                        for (int i = 0; i < modellocalite.size(); i++) {
-                            if (TDonnee1.getText().equals(modellocalite.getElementAt(i).getNomVille()) && TDonnee2.getText().equals(modellocalite.getElementAt(i).getCodePostal())) {
-                                JOptionPane.showMessageDialog(null, "Cette localité avec ce code postal existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
-                                exist = 1;
-                            }
-                        }
-                        if (exist != 1) {
+                        if (Exist() != 1) {
                             controller.doSave(getDataLocalite());
                             modellocalite = controller.getModelLoc();
                             JOptionPane.showMessageDialog(null, "Vous avez ajouté une localité", "Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                         break;
                     case SUJET:
-                        for (int i = 0; i < modelsujet.size(); i++) {
-                            if (TDonnee1.getText().equals(modelsujet.getElementAt(i).getNomSujet())) {
-                                JOptionPane.showMessageDialog(null, "Ce sujet existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
-                                exist = 1;
-                            }
-                        }
-                        if (exist != 1) {
+                        if (Exist() != 1) {
                             controller.doSave(getDataSujet());
                             modelsujet = controller.getModelSujet();
-                            JOptionPane.showMessageDialog(null, "Vous avez ajouté une sujet", "Information", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Vous avez ajouté un sujet", "Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                         break;
                     case THEME:
-                        for (int i = 0; i < modeltheme.size(); i++) {
-                            if (TDonnee1.getText().equals(modeltheme.getElementAt(i).getNomTheme())) {
-                                JOptionPane.showMessageDialog(null, "Ce thème existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
-                                exist = 1;
-                            }
-                        }
-                        if (exist != 1) {
+                        if (Exist() != 1) {
                             controller.doSave(getDataTheme());
                             modeltheme = controller.getModelTheme();
-                            JOptionPane.showMessageDialog(null, "Vous avez ajouté une thème", "Information", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Vous avez ajouté un thème", "Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                         break;
                 }
@@ -232,55 +196,67 @@ public class FGestionDonnees extends AppFrame {
             int option;
             switch (chx) {
                 case AUTEUR:
-                    option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un auteur", "Attention", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.OK_OPTION) {
-                        try {
-                            controller.doUpdate(getDataAuteur());
-                            modelautor = controller.getModelAuteur();
-                            JOptionPane.showMessageDialog(null, "Vous avez modifié un auteur", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        } catch (Exception e){
-                            JOptionPane.showMessageDialog(null, "La date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                    if (Exist() != 1){
+                        option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un auteur", "Attention", JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.OK_OPTION) {
+                            try {
+                                controller.doUpdate(getDataAuteur());
+                                modelautor = controller.getModelAuteur();
+                                JOptionPane.showMessageDialog(null, "Vous avez modifié un auteur", "Information", JOptionPane.INFORMATION_MESSAGE);
+                            } catch (Exception e){
+                                JOptionPane.showMessageDialog(null, "La date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                            }
                         }
                     }
                     break;
                 case EDITEUR:
-                    option = JOptionPane.showConfirmDialog(null, "Vous allez modifier une collection", "Attention", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.OK_OPTION) {
-                        controller.doUpdate(getDataCollection());
-                        modelediteur = controller.getModelEditeur();
-                        JOptionPane.showMessageDialog(null, "Vous avez modifié une collection", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    if (Exist() != 1){
+                        option = JOptionPane.showConfirmDialog(null, "Vous allez modifier une collection", "Attention", JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.OK_OPTION) {
+                            controller.doUpdate(getDataCollection());
+                            modelediteur = controller.getModelEditeur();
+                            JOptionPane.showMessageDialog(null, "Vous avez modifié un éditeur", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                     break;
                 case LOCALISATION:
-                    option = JOptionPane.showConfirmDialog(null, "Vous allez modifier une localisation", "Attention", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.OK_OPTION) {
-                        controller.doUpdate(getDataLocalisation());
-                        modellocalisation = controller.getModelLocalisation();
-                        JOptionPane.showMessageDialog(null, "Vous avez modifié une localisation", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    if (Exist() != 1){
+                        option = JOptionPane.showConfirmDialog(null, "Vous allez modifier une localisation", "Attention", JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.OK_OPTION) {
+                            controller.doUpdate(getDataLocalisation());
+                            modellocalisation = controller.getModelLocalisation();
+                            JOptionPane.showMessageDialog(null, "Vous avez modifié une localisation", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                     break;
                 case LOCALITE:
-                    option = JOptionPane.showConfirmDialog(null, "Vous allez modifier une localité", "Attention", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.OK_OPTION) {
-                        controller.doUpdate(getDataLocalite());
-                        modellocalite = controller.getModelLoc();
-                        JOptionPane.showMessageDialog(null, "Vous avez modifié une localité", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    if (Exist() !=1){
+                        option = JOptionPane.showConfirmDialog(null, "Vous allez modifier une localité", "Attention", JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.OK_OPTION) {
+                            controller.doUpdate(getDataLocalite());
+                            modellocalite = controller.getModelLoc();
+                            JOptionPane.showMessageDialog(null, "Vous avez modifié une localité", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                     break;
                 case SUJET:
-                    option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un sujet", "Attention", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.OK_OPTION) {
-                        controller.doUpdate(getDataSujet());
-                        modelsujet = controller.getModelSujet();
-                        JOptionPane.showMessageDialog(null, "Vous avez modifié un sujet", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    if (Exist() !=1){
+                        option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un sujet", "Attention", JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.OK_OPTION) {
+                            controller.doUpdate(getDataSujet());
+                            modelsujet = controller.getModelSujet();
+                            JOptionPane.showMessageDialog(null, "Vous avez modifié un sujet", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                     break;
                 case THEME:
-                    option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un thème", "Attention", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.OK_OPTION) {
-                        controller.doUpdate(getDataTheme());
-                        modeltheme = controller.getModelTheme();
-                        JOptionPane.showMessageDialog(null, "Vous avez modifié un thème", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    if (Exist() != 1){
+                        option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un thème", "Attention", JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.OK_OPTION) {
+                            controller.doUpdate(getDataTheme());
+                            modeltheme = controller.getModelTheme();
+                            JOptionPane.showMessageDialog(null, "Vous avez modifié un thème", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                     break;
             }
@@ -320,7 +296,7 @@ public class FGestionDonnees extends AppFrame {
                         if (option == JOptionPane.OK_OPTION) {
                             controller.doDelete(getDataCollection());
                             modelediteur = controller.getModelEditeur();
-                            JOptionPane.showMessageDialog(null, "Vous avez supprimer une collection", "Information", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Vous avez supprimer un éditeur", "Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Cet éditeur ne peut être supprimé, il comprend au moins un livre", "Attention", JOptionPane.WARNING_MESSAGE);
@@ -398,6 +374,61 @@ public class FGestionDonnees extends AppFrame {
             Nettoyerchamps();
             RemplirTableDonnee();
         });
+    }
+
+    private int Exist() {
+        int exist=0;
+        switch (chx){
+            case AUTEUR:
+                for (int i = 0; i < modelautor.size(); i++) {
+                    if (TDonnee1.getText().equals(modelautor.getElementAt(i).getNomAuteur()) && TDonnee2.getText().equals(modelautor.getElementAt(i).getPrenomAuteur())) {
+                        JOptionPane.showMessageDialog(null, "Cet auteur existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
+                        exist = 1;
+                    }
+                }
+            break;
+            case EDITEUR:
+                for (int i = 0; i < modelediteur.size(); i++) {
+                    if (TDonnee1.getText().equals(modelediteur.getElementAt(i).getNomEditeur())) {
+                        JOptionPane.showMessageDialog(null, "Cet éditeur existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
+                        exist = 1;
+                    }
+                }
+            break;
+            case LOCALISATION:
+                for (int i = 0; i < modellocalisation.size(); i++) {
+                    if (TDonnee1.getText().equals(modellocalisation.getElementAt(i).getNomLocalisation())) {
+                        JOptionPane.showMessageDialog(null, "Cette localisation existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
+                        exist = 1;
+                    }
+                }
+            break;
+            case LOCALITE:
+                for (int i = 0; i < modellocalite.size(); i++) {
+                    if (TDonnee1.getText().equals(modellocalite.getElementAt(i).getNomVille()) && TDonnee2.getText().equals(modellocalite.getElementAt(i).getCodePostal())) {
+                        JOptionPane.showMessageDialog(null, "Cette localité avec ce code postal existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
+                        exist = 1;
+                    }
+                }
+            break;
+            case SUJET:
+                for (int i = 0; i < modelsujet.size(); i++) {
+                    if (TDonnee1.getText().equals(modelsujet.getElementAt(i).getNomSujet())) {
+                        JOptionPane.showMessageDialog(null, "Ce sujet existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
+                        exist = 1;
+                    }
+                }
+            break;
+            case THEME:
+                for (int i = 0; i < modeltheme.size(); i++) {
+                    if (TDonnee1.getText().equals(modeltheme.getElementAt(i).getNomTheme())) {
+                        JOptionPane.showMessageDialog(null, "Ce thème existe déjà, vous ne pouvez pas l'ajouter", "Attention", JOptionPane.WARNING_MESSAGE);
+                        exist = 1;
+                    }
+                }
+            break;
+        }
+        return exist;
     }
 
     //Cacher tout les pannel à l'ouverture
@@ -480,7 +511,7 @@ public class FGestionDonnees extends AppFrame {
                 }
                 break;
             case THEME:
-                TDonneesModel.addColumn("Theme");
+                TDonneesModel.addColumn("Thème");
                 TableDonnees.setModel(TDonneesModel);
                 for (int i = 0; i < modeltheme.size(); i++) {
                     Object[] a = {modeltheme.getElementAt(i).getNomTheme()};

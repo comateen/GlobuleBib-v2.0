@@ -160,7 +160,7 @@ class FGestionLivres extends AppFrame {
                 controller.doSave(getData());
                 NouveauLecteur();
                 pos=modellivre.size();
-                JOptionPane.showMessageDialog(null, "vous avez ajouté un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Vous avez ajouté un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "La section doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
             }
@@ -182,6 +182,7 @@ class FGestionLivres extends AppFrame {
     }
 
     private void SupprimerLivre(){
+        System.out.println(TidLivre.getText());
         listlivreemprunt = controller.doFindLivre(5, TidLivre.getText());
         if (listlivreemprunt.size()>0){
             int option = JOptionPane.showConfirmDialog(null, "Vous allez supprimer un livre", "Attention", JOptionPane.YES_NO_OPTION);

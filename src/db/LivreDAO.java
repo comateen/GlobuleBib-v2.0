@@ -191,8 +191,11 @@ public class LivreDAO extends DAO<Livre>{
             case 4 :
                 sql=String.format("SELECT * FROM ((t_livres INNER JOIN t_empruntlivre ON t_livres.Pk_Livre=t_empruntlivre.Fk_Livre) INNER JOIN t_emprunts ON t_empruntlivre.Fk_Emprunt=t_emprunts.Pk_Emprunt) WHERE t_emprunts.Pk_Emprunt=%s",condition);
                 break;
-           case 5 :
-                sql=String.format("SELECT * FROM (t_livres INNER JOIN t_empruntlivre ON t_livres.Pk_Livre=t_empruntlivre.Fk_Livre) WHERE t_empruntlivre.Retour=1 AND t_livres.Pk_Livre=%s", condition);
+            case 5 :
+                sql=String.format("SELECT * FROM t_livres WHERE Statut_Livre=0 AND Pk_Livre=%s", condition);
+                break;
+            case 6 :
+                sql=String.format("SELECT * FROM ((t_livres INNER JOIN t_empruntlivre ON t_livres.Pk_Livre=t_empruntlivre.Fk_Livre) INNER JOIN t_emprunts ON t_empruntlivre.Fk_Emprunt=t_emprunts.Pk_Emprunt) WHERE t_emprunts.Fk_Lecteur=%s",condition);
                 break;
         }
         try (ResultSet rs = db.getConnection().prepareStatement(sql).executeQuery()){

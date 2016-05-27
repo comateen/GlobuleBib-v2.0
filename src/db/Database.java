@@ -10,28 +10,7 @@ import java.sql.SQLException;
  * Created by jof on 01/04/2016.
  */
 public class Database {
-    /*private String url= "jdbc:mysql://localhost:3306/GlobuleBib";
-    private String user ="root";
-    private String pass = null;
-    private static Connection con = null;
-
-    private Database(){
-        try {
-            con= DriverManager.getConnection(url, user, pass);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Connection getInstance(){
-        if(con == null) {
-            new Database();
-        }
-        return con;
-    }*/
-
     private MysqlDataSource dataSource = new MysqlDataSource();
-
 
     private Database() {
         dataSource.setDatabaseName("GlobuleBib");

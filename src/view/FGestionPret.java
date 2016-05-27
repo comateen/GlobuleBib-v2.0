@@ -515,6 +515,8 @@ public class FGestionPret extends AppFrame {
         if (TREmprunt.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Veuillez entrer un numéro d'emprunt", "Attention", JOptionPane.WARNING_MESSAGE);
         } else {
+            TRechercherLecteur.setText("");
+            TRechercheLivre.setText("");
             Nettoyerchamps(); //méthode qui remet tous les champs du formulaire à leur valeur par défaut
             listlivreemprunt = controller.doFindLivre(4, TREmprunt.getText());
             TELModel = new DefaultTableModel(){

@@ -124,7 +124,7 @@ class FGestionLecteurs extends AppFrame {
         BDernier.addActionListener(actionEvent -> Dernier());
         BRechercher.addActionListener(actionEvent -> RechercherLecteur());
         BAjouter.addActionListener(actionEvent -> AjoutLecteur());
-        BModifier.addActionListener(actionevent -> ModifierLecteur());
+        BModifier.addActionListener(actionEvent -> ModifierLecteur());
         BSupprimer.addActionListener(actionEvent -> SupprimerLecteur());
         CBLocalite.addActionListener(e -> TCP.setText(modellocalite.getElementAt(CBLocalite.getSelectedIndex()).getCodePostal()));
         CBLocalite.addFocusListener(new FocusAdapter() {
@@ -135,15 +135,6 @@ class FGestionLecteurs extends AppFrame {
                 RemplirCBLoc();
             }
         });
-
-        /*Container.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                modellocalite = controller.getModelLoc();
-                RemplirCBLoc();
-            }
-        });*/
     }
 
     //Remplir le jtable
@@ -175,22 +166,27 @@ class FGestionLecteurs extends AppFrame {
         TDELecteur.setText(date.now().plusYears(1).format(formatter));
     }
 
+    private int Exist(){
+        int exist = 0;
+
+        for (int i=0; i<model.size(); i++){
+            if (TNomLecteur.getText().equals(model.getElementAt(i).getNomLecteur()) &&
+                    TPrenomLecteur.getText().equals(model.getElementAt(i).getPrenomLecteur()) &&
+                    TDNLecteur.getText().equals(model.getElementAt(i).getDNLecteur().format(formatter).toString())){
+                JOptionPane.showMessageDialog(null, "Ce lecteur existe déjà", "Attention", JOptionPane.WARNING_MESSAGE);
+                exist = 1;
+            }
+        }
+        return exist;
+    }
+
     private void AjoutLecteur(){
-        int exist =0;
         CheckChamps();
         if (check){
             JOptionPane.showMessageDialog(null, "Certains champs ne sont pas complété", "Attention", JOptionPane.WARNING_MESSAGE);
         } else {
-            if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
-                for (int i=0; i<model.size(); i++){
-                    if (TNomLecteur.getText().equals(model.getElementAt(i).getNomLecteur()) &&
-                            TPrenomLecteur.getText().equals(model.getElementAt(i).getPrenomLecteur()) &&
-                            TDNLecteur.getText().equals(model.getElementAt(i).getDNLecteur().toString())){
-                        JOptionPane.showMessageDialog(null, "Ce lecteur existe déjà", "Attention", JOptionPane.WARNING_MESSAGE);
-                        exist =1;
-                    }
-                }
-                if (exist !=1) {
+            if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("adolescent") || TCategorie.getText().toLowerCase().equals("enfant")){
+                if (Exist() !=1) {
                     TidLecteur.setText("");
                     try {
                         controller.doSave(getData());
@@ -203,7 +199,7 @@ class FGestionLecteurs extends AppFrame {
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "La catégorie doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "La catégorie doit être adulte, adolescent ou enfant ", "Attention", JOptionPane.WARNING_MESSAGE);
             }
         }
         Nettoyerchamps();
@@ -211,15 +207,17 @@ class FGestionLecteurs extends AppFrame {
 
     private void ModifierLecteur(){
         if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
-            int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.OK_OPTION) {
-                try {
-                    controller.doUpdate(getData());
-                    model = controller.getModel();
-                    RemplirTableLecteur();
-                    JOptionPane.showMessageDialog(null, "Vous avez modifié un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
-                } catch (Exception e){
-                    JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+            if (Exist() != 1){
+                int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    try {
+                        controller.doUpdate(getData());
+                        model = controller.getModel();
+                        RemplirTableLecteur();
+                        JOptionPane.showMessageDialog(null, "Vous avez modifié un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception e){
+                        JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                    }
                 }
             }
         } else {

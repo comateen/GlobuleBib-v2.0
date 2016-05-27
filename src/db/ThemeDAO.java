@@ -32,7 +32,7 @@ public class ThemeDAO extends  DAO<Theme>{
 
     @Override
     public void modifier(Theme t){
-        String sql = "UPDATE t_themes set Nom_Themes = ? WHERE Pk_Theme = ?";
+        String sql = "UPDATE t_themes set Nom_Theme = ? WHERE Pk_Theme = ?";
         try (PreparedStatement st = db.getConnection().prepareStatement(sql)){
             st.setString(1, t.getNomTheme());
             st.setInt(2, t.getIdTheme());
