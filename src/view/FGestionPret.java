@@ -560,7 +560,7 @@ public class FGestionPret extends AppFrame {
 
     private void RetourTotalite(){
         for (int i = 0; i < listlivreemprunt.size(); i++){
-            controller.doReturnBook(TREmprunt.getText(), String.valueOf(listlivreemprunt.getElementAt(i).getIdLivre()));
+            controller.doReturnBook(TidEmprunt.getText(), String.valueOf(listlivreemprunt.getElementAt(i).getIdLivre()));
         }
         listlivreemprunt.removeAllElements();
         modelEmprunt = controller.getModelEmprunt();

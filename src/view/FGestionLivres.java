@@ -445,8 +445,18 @@ class FGestionLivres extends AppFrame {
     }
 
     private void AjoutAuteur(){
-        listlivreauteur.addElement(modelauteur.getElementAt(CBAuteur.getSelectedIndex()));
-        RemplirTableLivreAuteur();
+        int exist = 0;
+        for (int i = 0; i<listlivreauteur.size(); i++){
+            if(listlivreauteur.getElementAt(i).getIdAuteur()==modelauteur.getElementAt(CBAuteur.getSelectedIndex()).getIdAuteur()){
+                exist=1;
+            }
+        }
+        if (exist!=1){
+            listlivreauteur.addElement(modelauteur.getElementAt(CBAuteur.getSelectedIndex()));
+            RemplirTableLivreAuteur();
+        } else {
+            JOptionPane.showMessageDialog(null, "Cet auteur est déjà inscrit comme écrivain de ce livre", "Attention", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private void RetirerAuteur(){
@@ -458,8 +468,19 @@ class FGestionLivres extends AppFrame {
     }
 
     private void Ajoutsujet(){
-        listlivresujet.addElement(modelsujet.getElementAt(CBSujet.getSelectedIndex()));
-        RemplirTableLivreSujet();
+        int exist=0;
+        for (int i = 0; i < listlivresujet.size(); i++){
+            if (listlivresujet.getElementAt(i).getIdSujet()==modelsujet.getElementAt(CBSujet.getSelectedIndex()).getIdSujet()){
+                exist=1;
+            }
+        }
+        if (exist!=1){
+            listlivresujet.addElement(modelsujet.getElementAt(CBSujet.getSelectedIndex()));
+            RemplirTableLivreSujet();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ce sujet est déjà repris dans les sujets de ce livre", "Attention", JOptionPane.WARNING_MESSAGE);
+        }
+
     }
 
     private void RetirerSujet(){

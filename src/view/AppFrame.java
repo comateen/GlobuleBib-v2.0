@@ -22,4 +22,16 @@ public abstract class AppFrame extends JFrame{
         //this.setLocation(0,0);
     }
 
+    public boolean checkIfLetters(String phrase) {
+        int i = 0;
+        while(i < phrase.length()) {
+            if(!Character.isDigit(phrase.charAt(i))){
+                i++;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
