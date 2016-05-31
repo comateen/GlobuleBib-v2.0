@@ -16,10 +16,9 @@ public abstract class AppFrame extends JFrame{
     public void close(){ this.dispose();}
 
     void init(){
-        this.setContentPane(getContainer()/*new FGestionDonnees()*/);
+        this.setContentPane(getContainer());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
-        //this.setLocation(0,0);
     }
 
     public boolean checkIfLetters(String phrase) {
@@ -33,5 +32,4 @@ public abstract class AppFrame extends JFrame{
         }
         return true;
     }
-
 }

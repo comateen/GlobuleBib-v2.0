@@ -168,7 +168,6 @@ class FGestionLecteurs extends AppFrame {
 
     private int Exist(){
         int exist = 0;
-
         for (int i=0; i<model.size(); i++){
             if (TNomLecteur.getText().equals(model.getElementAt(i).getNomLecteur()) &&
                     TPrenomLecteur.getText().equals(model.getElementAt(i).getPrenomLecteur()) &&
@@ -185,43 +184,51 @@ class FGestionLecteurs extends AppFrame {
         if (check){
             JOptionPane.showMessageDialog(null, "Certains champs ne sont pas complété", "Attention", JOptionPane.WARNING_MESSAGE);
         } else {
-            if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("adolescent") || TCategorie.getText().toLowerCase().equals("enfant")){
-                if (Exist() !=1) {
-                    TidLecteur.setText("");
-                    try {
-                        controller.doSave(getData());
-                        model = controller.getModel();
-                        RemplirTableLecteur();
-                        pos=model.getSize()-1;
-                        JOptionPane.showMessageDialog(null, "Vous avez ajouté un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (Exception e){
-                        JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+            if (checkIfLetters(TNomLecteur.getText()) && checkIfLetters(TPrenomLecteur.getText())){
+                if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("adolescent") || TCategorie.getText().toLowerCase().equals("enfant")){
+                    if (Exist() !=1) {
+                        TidLecteur.setText("");
+                        try {
+                            controller.doSave(getData());
+                            model = controller.getModel();
+                            RemplirTableLecteur();
+                            pos=model.getSize()-1;
+                            JOptionPane.showMessageDialog(null, "Vous avez ajouté un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        } catch (Exception e){
+                            JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "La catégorie doit être adulte, adolescent ou enfant ", "Attention", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "La catégorie doit être adulte, adolescent ou enfant ", "Attention", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Il y a un chiffre dans le(s) champs nom et/ou prénom", "Attention", JOptionPane.WARNING_MESSAGE);
             }
         }
         Nettoyerchamps();
     }
 
     private void ModifierLecteur(){
-        if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
-            if (Exist() != 1){
-                int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
-                    try {
-                        controller.doUpdate(getData());
-                        model = controller.getModel();
-                        RemplirTableLecteur();
-                        JOptionPane.showMessageDialog(null, "Vous avez modifié un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (Exception e){
-                        JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+        if (checkIfLetters(TNomLecteur.getText()) || checkIfLetters(TPrenomLecteur.getText())){
+            if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
+                if (Exist() != 1){
+                    int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
+                    if (option == JOptionPane.OK_OPTION) {
+                        try {
+                            controller.doUpdate(getData());
+                            model = controller.getModel();
+                            RemplirTableLecteur();
+                            JOptionPane.showMessageDialog(null, "Vous avez modifié un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        } catch (Exception e){
+                            JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "La catégorie doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "La catégorie doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Il y a un chiffre dans le(s) champs nom et/ou prénom", "Attention", JOptionPane.WARNING_MESSAGE);
         }
     }
 
