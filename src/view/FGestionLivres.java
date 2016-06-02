@@ -72,6 +72,8 @@ class FGestionLivres extends AppFrame {
     private JPanel Container;
     private JTextField TidLivre;
     private JButton TRecharger;
+    private JLabel LCote;
+    private JTextField TCote;
     private int pos = 0;
     private boolean check=true;
 
@@ -364,6 +366,7 @@ class FGestionLivres extends AppFrame {
         TISBN.setText(modellivre.getElementAt(p).getIsbnLivre());
         TTitreLivre.setText(modellivre.getElementAt(p).getTitreLivre());
         TSectionLivre.setText(modellivre.getElementAt(p).getSectionLivre());
+        TCote.setText(modellivre.getElementAt(p).getCoteLivre());
         CBStatut.setSelectedIndex(modellivre.getElementAt(p).getStatutLivre());
         for (int i = 0; i< modelediteur.size(); i++){
             if (modelediteur.getElementAt(i).getIdEditeur()==modellivre.getElementAt(p).getIdEditeur()){
@@ -501,6 +504,7 @@ class FGestionLivres extends AppFrame {
         livre.setIsbnLivre(TISBN.getText());
         livre.setTitreLivre(TTitreLivre.getText().toLowerCase());
         livre.setSectionLivre(TSectionLivre.getText().toLowerCase());
+        livre.setCoteLivre(TCote.getText().toLowerCase());
         livre.setStatutLivre(CBStatut.getSelectedIndex());
         livre.setIdEditeur(modelediteur.getElementAt(CBEditeur.getSelectedIndex()-1).getIdEditeur());
         livre.setIdTheme(modeltheme.getElementAt(CBTheme.getSelectedIndex()-1).getIdTheme());

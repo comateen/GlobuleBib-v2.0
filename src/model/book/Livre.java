@@ -10,7 +10,7 @@ import java.util.List;
  * Created by jof on 29/03/2016.
  */
 public class Livre implements Comparable<Livre>{
-    private String isbnLivre, titreLivre, sectionLivre;
+    private String isbnLivre, titreLivre, sectionLivre, coteLivre;
     private int idLivre, idAuteur, idEditeur, idLocalisation, idSujet, idTheme, statutLivre;
     private List<Auteur> auteurs;
     private List<Sujet> sujets;
@@ -21,13 +21,14 @@ public class Livre implements Comparable<Livre>{
         isbnLivre ="";
         titreLivre ="";
         sectionLivre ="";
-        //StatutLivre="";
+        coteLivre="";
     }
 
-    public Livre(String Isbn, String Titre, String Section, int Statut, List<Auteur> Aut, int IdCol, int IdLoca, List<Sujet> suj, int IdThem){
+    public Livre(String Isbn, String Titre, String Section, String Cote, int Statut, List<Auteur> Aut, int IdCol, int IdLoca, List<Sujet> suj, int IdThem){
         isbnLivre =Isbn;
         titreLivre =Titre;
         sectionLivre =Section;
+        coteLivre = Cote;
         statutLivre=Statut;
         auteurs =Aut;
         idEditeur =IdCol;
@@ -36,11 +37,12 @@ public class Livre implements Comparable<Livre>{
         idTheme =IdThem;
     }
 
-    public Livre(int ID, String Isbn, String Titre, String Section, int Statut, List<Auteur> Aut, int IdCol, int IdLoca, List<Sujet> suj, int IdThem){
+    public Livre(int ID, String Isbn, String Titre, String Section, String Cote, int Statut, List<Auteur> Aut, int IdCol, int IdLoca, List<Sujet> suj, int IdThem){
         idLivre =ID;
         isbnLivre =Isbn;
         titreLivre =Titre;
         sectionLivre =Section;
+        coteLivre = Cote;
         statutLivre=Statut;
         auteurs =Aut;
         idEditeur =IdCol;
@@ -54,6 +56,7 @@ public class Livre implements Comparable<Livre>{
         isbnLivre = set.getString(LivreDAO.COL_ISBN);
         titreLivre = set.getString(LivreDAO.COL_Titre);
         sectionLivre = set.getString(LivreDAO.COL_SECTION);
+        coteLivre = set.getString(LivreDAO.COL_COTE);
         statutLivre = set.getInt(LivreDAO.COL_STATUT);
         idEditeur = set.getInt(LivreDAO.COL_xID_Editeur);
         idLocalisation = set.getInt(LivreDAO.COL_xID_Localisation);
@@ -72,6 +75,10 @@ public class Livre implements Comparable<Livre>{
 
     public String getSectionLivre() {
         return sectionLivre;
+    }
+
+    public String getCoteLivre(){
+        return coteLivre;
     }
 
     public int getStatutLivre() {
@@ -123,6 +130,10 @@ public class Livre implements Comparable<Livre>{
 
     public void setSectionLivre(String Section) {
         sectionLivre = Section;
+    }
+
+    public void setCoteLivre(String Cote) {
+        coteLivre = Cote;
     }
 
     public void setStatutLivre(int Statut) {
