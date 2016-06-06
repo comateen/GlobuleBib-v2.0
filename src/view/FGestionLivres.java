@@ -5,10 +5,7 @@ import model.book.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,10 +135,10 @@ class FGestionLivres extends AppFrame {
         nouveau.addActionListener(actionEvent -> NouveauLecteur());
         //Deco.addActionListener(actionEvent -> Deconnexion());
         Exit.addActionListener(actionEvent -> Quitter());
-        CBEditeur.addFocusListener(new FocusAdapter() {
+        this.addWindowFocusListener(new WindowAdapter() {
             @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
+            public void windowGainedFocus(WindowEvent e) {
+                super.windowGainedFocus(e);
                 modelediteur = controller.getModelEditeur();
                 modeltheme = controller.getModelTheme();
                 modellocalisation = controller.getModelLocalisation();

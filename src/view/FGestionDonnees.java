@@ -21,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 /**
  * Created by jof on 02/04/2016.
  */
+
+
 public class FGestionDonnees extends AppFrame {
     private DefaultTableModel TDonneesModel;
     private final Controller controller = new Controller();
@@ -67,8 +69,6 @@ public class FGestionDonnees extends AppFrame {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private enum TypeDonnees {AUTEUR, EDITEUR, LOCALISATION, LOCALITE, SUJET, THEME}
-
-
 
     @Override
     JPanel getContainer() {

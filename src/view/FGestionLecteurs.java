@@ -9,10 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -127,10 +124,10 @@ class FGestionLecteurs extends AppFrame {
         BModifier.addActionListener(actionEvent -> ModifierLecteur());
         BSupprimer.addActionListener(actionEvent -> SupprimerLecteur());
         CBLocalite.addActionListener(e -> TCP.setText(modellocalite.getElementAt(CBLocalite.getSelectedIndex()).getCodePostal()));
-        CBLocalite.addFocusListener(new FocusAdapter() {
+        this.addWindowFocusListener(new WindowAdapter() {
             @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
+            public void windowGainedFocus(WindowEvent e) {
+                super.windowGainedFocus(e);
                 modellocalite = controller.getModelLoc();
                 RemplirCBLoc();
             }
@@ -150,7 +147,6 @@ class FGestionLecteurs extends AppFrame {
         TableLecteurs.setModel(TlecteurModel);
         for (int i =0; i < model.size(); i++) {
             Object [] L={model.getElementAt(i).getNomLecteur(), model.getElementAt(i).getPrenomLecteur()};
-            //System.out.println(model.getElementAt(i).getNomLecteur());
             TlecteurModel.addRow(L);
         }
     }

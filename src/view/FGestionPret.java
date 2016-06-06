@@ -11,6 +11,8 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -98,6 +100,10 @@ public class FGestionPret extends AppFrame {
     private int posLivre =0;
     private int posEmprunt=0;
     private int posPeriode=0;
+
+    private boolean openDonnees = true;
+    private boolean openLivres = true;
+    private boolean openLecteurs = true;
 
     @Override
     JPanel getContainer() {
@@ -191,7 +197,6 @@ public class FGestionPret extends AppFrame {
             }
         });
         BRechercher.addActionListener(actionEvent -> RechercherPeriode());
-
 
     }
 
@@ -660,20 +665,54 @@ public class FGestionPret extends AppFrame {
 
     //ouvrir les Donnees significative
     private void GDonnee(){
-        FGestionDonnees frameDonne = new FGestionDonnees();
-        frameDonne.setVisible(true);
-        frameDonne.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        if (openDonnees){
+            FGestionDonnees frameDonne = new FGestionDonnees();
+            frameDonne.setVisible(true);
+            frameDonne.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            openDonnees=false;
+            frameDonne.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    super.windowClosed(e);
+                    openDonnees=true;
+                }
+            });
+        }
     }
 
     private void GLecteur() {
-        FGestionLecteurs frameLecteur = new FGestionLecteurs();
-        frameLecteur.setVisible(true);
-        frameLecteur.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        if (openLecteurs){
+            FGestionLecteurs frameLecteur = new FGestionLecteurs();
+            frameLecteur.setVisible(true);
+            frameLecteur.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            openLecteurs=false;
+            frameLecteur.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    super.windowClosed(e);
+                    openLecteurs=true;
+                }
+            });
+        }
     }
 
     private void GLivre() {
-        FGestionLivres frameLivre = new FGestionLivres();
-        frameLivre.setVisible(true);
-        frameLivre.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        if (openLivres){
+            FGestionLivres frameLivre = new FGestionLivres();
+            frameLivre.setVisible(true);
+            frameLivre.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            openLivres=false;
+            frameLivre.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    super.windowClosed(e);
+                    openLivres=true;
+                }
+            });
+        }
+    }
+
+    public void closeDonees(){
+        openDonnees=true;
     }
 }
