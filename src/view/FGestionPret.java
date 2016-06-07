@@ -507,9 +507,8 @@ public class FGestionPret extends AppFrame {
             } else {
                 controller.doSave(getData());
                 Nettoyerchamps(); //méthode qui remet tous les champs du fromulaire à leur valeur par défaut
-                for (int i =0; i<TableEmprunts.getRowCount()-1; i++){
-                    TELModel.removeRow(i);
-                }
+                listlivreemprunt.removeAllElements();
+                RemplirTableEmprunt();
                 JOptionPane.showMessageDialog(null, "Vous avez ajouté un emprunt", "Information", JOptionPane.INFORMATION_MESSAGE);
                 modelEmprunt = controller.getModelEmprunt();
             }
