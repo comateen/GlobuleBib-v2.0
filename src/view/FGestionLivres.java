@@ -90,8 +90,8 @@ class FGestionLivres extends AppFrame {
         MenuBar.add(fichier);
         JMenuItem nouveau = new JMenuItem("Nouveau");
         fichier.add(nouveau);
-        /*JMenuItem Deco = new JMenuItem("Se déconnecter");
-        fichier.add(Deco);*/
+        JMenuItem Dupliquer = new JMenuItem("Dupliquer");
+        fichier.add(Dupliquer);
         JMenuItem Exit = new JMenuItem("Quitter");
         fichier.add(Exit);
         modellivre = controller.getModelLivre();
@@ -132,8 +132,8 @@ class FGestionLivres extends AppFrame {
                 RemplirTableLivre();
             }
         });
-        nouveau.addActionListener(actionEvent -> NouveauLecteur());
-        //Deco.addActionListener(actionEvent -> Deconnexion());
+        nouveau.addActionListener(actionEvent -> NouveauLivre());
+        Dupliquer.addActionListener(actionEvent -> Duplication());
         Exit.addActionListener(actionEvent -> Quitter());
         this.addWindowFocusListener(new WindowAdapter() {
             @Override
@@ -157,7 +157,7 @@ class FGestionLivres extends AppFrame {
         } else {
             if (TSectionLivre.getText().toLowerCase().equals("adulte") || TSectionLivre.getText().toLowerCase().equals("jeunesse")){
                 controller.doSave(getData());
-                NouveauLecteur();
+                NouveauLivre();
                 pos=modellivre.size();
                 JOptionPane.showMessageDialog(null, "Vous avez ajouté un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -172,7 +172,7 @@ class FGestionLivres extends AppFrame {
             int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un livre", "Attention", JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.OK_OPTION) {
                 controller.doUpdate(getData());
-                NouveauLecteur();
+                NouveauLivre();
                 JOptionPane.showMessageDialog(null, "Vous avez modifié un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
@@ -187,7 +187,7 @@ class FGestionLivres extends AppFrame {
             int option = JOptionPane.showConfirmDialog(null, "Vous allez supprimer un livre", "Attention", JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.OK_OPTION) {
                 controller.doDelete(getData());
-                NouveauLecteur();
+                NouveauLivre();
                 JOptionPane.showMessageDialog(null, "Vous avez supprimé un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
@@ -436,6 +436,7 @@ class FGestionLivres extends AppFrame {
         TISBN.setText("");
         TTitreLivre.setText("");
         TSectionLivre.setText("");
+        TCote.setText("");
         CBStatut.setSelectedItem("");
         CBAuteur.setSelectedIndex(0);
         CBEditeur.setSelectedIndex(0);
@@ -517,10 +518,43 @@ class FGestionLivres extends AppFrame {
         return livre;
     }
 
-    private void NouveauLecteur() {
+    private void NouveauLivre() {
         NettoyerChamps();
         NettoyerTables();
         RemplirTableLivre();
+    }
+
+    private void Duplication (){
+        Livre livre = new Livre();
+        List<Auteur> auteurs = new ArrayList<>();
+        List<Sujet> sujets = new ArrayList<>();
+        for (int i = 0; i < modellivre.size(); i++){
+            if (String.valueOf(modellivre.getElementAt(i).getIdLivre()).equals(TidLivre.getText())){
+                int option = JOptionPane.showConfirmDialog(null, "Vous allez dupliquer " + modellivre.getElementAt(i).getTitreLivre(), "Attention", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    livre.setIsbnLivre(modellivre.getElementAt(i).getIsbnLivre());
+                    livre.setTitreLivre(modellivre.getElementAt(i).getTitreLivre());
+                    livre.setSectionLivre(modellivre.getElementAt(i).getSectionLivre());
+                    livre.setCoteLivre(modellivre.getElementAt(i).getCoteLivre());
+                    livre.setStatutLivre(0);
+                    livre.setIdEditeur(modellivre.getElementAt(i).getIdEditeur());
+                    livre.setIdTheme(modellivre.getElementAt(i).getIdTheme());
+                    livre.setIdLocalisation(modellivre.getElementAt(i).getIdLocalisation());
+                    for (int j = 0; j < listlivreauteur.size(); j++) {
+                        auteurs.add(listlivreauteur.elementAt(j));
+                    }
+                    livre.setAuteurs(auteurs);
+                    for (int j = 0; j < listlivresujet.size(); j++) {
+                        sujets.add(listlivresujet.elementAt(j));
+                    }
+                    livre.setSujets(sujets);
+                    controller.doSave(livre);
+                    NouveauLivre();
+                    pos=modellivre.size();
+                    JOptionPane.showMessageDialog(null, "duplication réussie" , "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }
     }
 
     //se déconnecter et revenir à Fdépart

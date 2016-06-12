@@ -711,7 +711,4 @@ public class FGestionPret extends AppFrame {
         }
     }
 
-    public void closeDonees(){
-        openDonnees=true;
-    }
 }
