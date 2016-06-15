@@ -9,10 +9,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -68,6 +73,9 @@ class FGestionLecteurs extends AppFrame {
     private boolean check = true;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private LocalDate date;
+    private Pattern patternPhone = Pattern.compile("^(\\d{3,4})(\\d{2})(\\d{2})(\\d{2})$");
+    //private Pattern patternMail = Pattern.compile("^(([a-zA-Z0-9]+)((\\.|_|-)?([a-zA-Z0-9]+))?(@)([a-zA-Z0-9]+)\\.([a-zA-Z]{2,4}))$");
+    private Pattern patternMail = Pattern.compile("^((\\w)+(\\.|_|-)?(\\w)+)?(@)(\\w)+\\.([a-zA-Z]{2,4})$");
 
     @Override
     JPanel getContainer() {
@@ -176,26 +184,38 @@ class FGestionLecteurs extends AppFrame {
     }
 
     private void AjoutLecteur(){
+        Matcher matcherPhone = patternPhone.matcher(TNumTel.getText());
+        boolean phone = matcherPhone.matches();
+        Matcher matcherMail = patternMail.matcher(TMail.getText());
+        boolean mail = matcherMail.matches();
         CheckChamps();
         if (check){
             JOptionPane.showMessageDialog(null, "Certains champs ne sont pas complété", "Attention", JOptionPane.WARNING_MESSAGE);
         } else {
             if (checkIfLetters(TNomLecteur.getText()) && checkIfLetters(TPrenomLecteur.getText())){
-                if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("adolescent") || TCategorie.getText().toLowerCase().equals("enfant")){
-                    if (Exist() !=1) {
-                        TidLecteur.setText("");
-                        try {
-                            controller.doSave(getData());
-                            model = controller.getModel();
-                            RemplirTableLecteur();
-                            pos=model.getSize()-1;
-                            JOptionPane.showMessageDialog(null, "Vous avez ajouté un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        } catch (Exception e){
-                            JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                if (phone){
+                    if (mail || TMail.getText().isEmpty()){
+                        if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("adolescent") || TCategorie.getText().toLowerCase().equals("enfant")){
+                            if (Exist() !=1) {
+                                TidLecteur.setText("");
+                                try {
+                                    controller.doSave(getData());
+                                    model = controller.getModel();
+                                    RemplirTableLecteur();
+                                    pos=model.getSize()-1;
+                                    JOptionPane.showMessageDialog(null, "Vous avez ajouté un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                } catch (Exception e){
+                                    JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                                }
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "La catégorie doit être adulte, adolescent ou enfant ", "Attention", JOptionPane.WARNING_MESSAGE);
                         }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Adresse mail non valide", "Attention", JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "La catégorie doit être adulte, adolescent ou enfant ", "Attention", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Le numéro de téléphone entré n'est pas correct, example : 010888782 ou 0495929365", "Attention", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Il y a un chiffre dans le(s) champs nom et/ou prénom", "Attention", JOptionPane.WARNING_MESSAGE);
@@ -205,23 +225,35 @@ class FGestionLecteurs extends AppFrame {
     }
 
     private void ModifierLecteur(){
+        Matcher matcherPhone = patternPhone.matcher(TNumTel.getText());
+        boolean phone = matcherPhone.matches();
+        Matcher matcherMail = patternMail.matcher(TMail.getText());
+        boolean mail = matcherMail.matches();
         if (checkIfLetters(TNomLecteur.getText()) || checkIfLetters(TPrenomLecteur.getText())){
-            if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
-                if (Exist() != 1){
-                    int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.OK_OPTION) {
-                        try {
-                            controller.doUpdate(getData());
-                            model = controller.getModel();
-                            RemplirTableLecteur();
-                            JOptionPane.showMessageDialog(null, "Vous avez modifié un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        } catch (Exception e){
-                            JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+            if (phone) {
+                if (mail || TMail.getText().isEmpty()){
+                    if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
+                        if (Exist() != 1){
+                            int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
+                            if (option == JOptionPane.OK_OPTION) {
+                                try {
+                                    controller.doUpdate(getData());
+                                    model = controller.getModel();
+                                    RemplirTableLecteur();
+                                    JOptionPane.showMessageDialog(null, "Vous avez modifié un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                } catch (Exception e){
+                                    JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                                }
+                            }
                         }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La catégorie doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Adresse mail non valide", "Attention", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "La catégorie doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Le numéro de téléphone entré n'est pas correct, example : 010888782 ou 0495929365", "Attention", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Il y a un chiffre dans le(s) champs nom et/ou prénom", "Attention", JOptionPane.WARNING_MESSAGE);
@@ -231,8 +263,9 @@ class FGestionLecteurs extends AppFrame {
     private void SupprimerLecteur(){
         modelemprunt = controller.getModelEmprunt();
         int exist = 0;
+        System.out.println(TidLecteur.getText());
         for (int i = 0; i <modelemprunt.size(); i++){
-            if (Integer.valueOf(TidLecteur.getText())==model.getElementAt(i).getIdLecteur()){
+            if (Integer.valueOf(TidLecteur.getText())==modelemprunt.getElementAt(i).getLecteur()){
                 exist = 1;
             }
         }
@@ -304,7 +337,11 @@ class FGestionLecteurs extends AppFrame {
             }
         }
         TNumTel.setText(model.getElementAt(P).getTelLecteur());
-        TMail.setText(model.getElementAt(P).getMailLecteur());
+        if (model.getElementAt(P).getMailLecteur().equals("0")){
+            TMail.setText("");
+        } else {
+            TMail.setText(model.getElementAt(P).getMailLecteur());
+        }
         TDILecteur.setText(String.valueOf(model.getElementAt(P).getDILecteur().format(formatter)));
         TDRLecteur.setText(String.valueOf(model.getElementAt(P).getDRLecteur().format(formatter)));
         TDELecteur.setText(String.valueOf(model.getElementAt(P).getDELecteur().format(formatter)));
@@ -369,7 +406,11 @@ class FGestionLecteurs extends AppFrame {
         lecteur.setAdresseLecteur(TAdresseLecteur.getText().toLowerCase());
         lecteur.setLoc(modellocalite.getElementAt(CBLocalite.getSelectedIndex()).getIDLocalite());
         lecteur.setTelLecteur(TNumTel.getText());
-        lecteur.setMailLecteur(TMail.getText().toLowerCase());
+        if (TMail.getText().isEmpty()){
+            lecteur.setMailLecteur("0");
+        } else {
+            lecteur.setMailLecteur(TMail.getText().toLowerCase());
+        }
         lecteur.setDILecteur(LocalDate.parse(TDILecteur.getText(), formatter));
         lecteur.setDRLecteur(LocalDate.parse(TDRLecteur.getText(), formatter));
         lecteur.setDELecteur(LocalDate.parse(TDELecteur.getText(), formatter));
@@ -383,7 +424,7 @@ class FGestionLecteurs extends AppFrame {
                 !TDNLecteur.getText().isEmpty() &&
                 !TAdresseLecteur.getText().isEmpty() &&
                 !TNumTel.getText().isEmpty() &&
-                !TMail.getText().isEmpty() &&
+                //!TMail.getText().isEmpty() &&
                 !TDILecteur.getText().isEmpty() &&
                 !TCategorie.getText().isEmpty()){
             check = false;
