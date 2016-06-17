@@ -228,34 +228,38 @@ class FGestionLecteurs extends AppFrame {
         boolean phone = matcherPhone.matches();
         Matcher matcherMail = patternMail.matcher(TMail.getText());
         boolean mail = matcherMail.matches();
-        if (checkIfLetters(TNomLecteur.getText()) || checkIfLetters(TPrenomLecteur.getText())){
-            if (phone) {
-                if (mail || TMail.getText().isEmpty()){
-                    if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
-                        if (Exist() != 1){
-                            int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
-                            if (option == JOptionPane.OK_OPTION) {
-                                try {
-                                    controller.doUpdate(getData());
-                                    model = controller.getModel();
-                                    RemplirTableLecteur();
-                                    JOptionPane.showMessageDialog(null, "Vous avez modifié un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
-                                } catch (Exception e){
-                                    JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+        if (check) {
+            JOptionPane.showMessageDialog(null, "Certains champs ne sont pas complété", "Attention", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (checkIfLetters(TNomLecteur.getText()) || checkIfLetters(TPrenomLecteur.getText())){
+                if (phone) {
+                    if (mail || TMail.getText().isEmpty()){
+                        if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
+                            if (Exist() != 1){
+                                int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
+                                if (option == JOptionPane.OK_OPTION) {
+                                    try {
+                                        controller.doUpdate(getData());
+                                        model = controller.getModel();
+                                        RemplirTableLecteur();
+                                        JOptionPane.showMessageDialog(null, "Vous avez modifié un lecteur", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                    } catch (Exception e){
+                                        JOptionPane.showMessageDialog(null, "Une date n'est pas valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                                    }
                                 }
                             }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "La catégorie doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "La catégorie doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Adresse mail non valide", "Attention", JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Adresse mail non valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Le numéro de téléphone entré n'est pas correct, example : 010888782 ou 0495929365", "Attention", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Le numéro de téléphone entré n'est pas correct, example : 010888782 ou 0495929365", "Attention", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Il y a un chiffre dans le(s) champs nom et/ou prénom", "Attention", JOptionPane.WARNING_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Il y a un chiffre dans le(s) champs nom et/ou prénom", "Attention", JOptionPane.WARNING_MESSAGE);
         }
     }
 

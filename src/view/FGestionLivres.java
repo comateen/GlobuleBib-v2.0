@@ -17,6 +17,8 @@ import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jof on 11/04/2016.
@@ -85,6 +87,7 @@ class FGestionLivres extends AppFrame {
     private int pos = 0;
     private boolean check=true;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private Pattern patternISBN = Pattern.compile("^(\\d{13})$");
 
     @Override
     JPanel getContainer() {
@@ -175,28 +178,45 @@ class FGestionLivres extends AppFrame {
         if (check){
             JOptionPane.showMessageDialog(null, "Certains champs ne sont pas complété", "Attention", JOptionPane.WARNING_MESSAGE);
         } else {
-            if (TSectionLivre.getText().toLowerCase().equals("adulte") || TSectionLivre.getText().toLowerCase().equals("jeunesse")){
-                controller.doSave(getData());
-                NouveauLivre();
-                pos=modellivre.size();
-                JOptionPane.showMessageDialog(null, "Vous avez ajouté un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
+            Matcher matchISBN = patternISBN.matcher(TISBN.getText());
+            boolean  isbn = matchISBN.matches();
+            if (isbn){
+                if (TSectionLivre.getText().toLowerCase().equals("adulte") || TSectionLivre.getText().toLowerCase().equals("jeunesse")){
+                    controller.doSave(getData());
+                    NouveauLivre();
+                    pos=modellivre.size();
+                    JOptionPane.showMessageDialog(null, "Vous avez ajouté un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "La section doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "La section doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "ISBN non valide", "Attention", JOptionPane.WARNING_MESSAGE);
             }
         }
         RemplirTableLivre();
     }
 
     private void ModifierLivre(){
-        if (TSectionLivre.getText().toLowerCase().equals("adulte") || TSectionLivre.getText().toLowerCase().equals("jeunesse")){
-            int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un livre", "Attention", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.OK_OPTION) {
-                controller.doUpdate(getData());
-                NouveauLivre();
-                JOptionPane.showMessageDialog(null, "Vous avez modifié un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
-            }
+        CheckChamps();
+        if (check) {
+            JOptionPane.showMessageDialog(null, "Certains champs ne sont pas complété", "Attention", JOptionPane.WARNING_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "La section doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
+            Matcher matchISBN = patternISBN.matcher(TISBN.getText());
+            boolean  isbn = matchISBN.matches();
+            if (isbn){
+                if (TSectionLivre.getText().toLowerCase().equals("adulte") || TSectionLivre.getText().toLowerCase().equals("jeunesse")){
+                    int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un livre", "Attention", JOptionPane.YES_NO_OPTION);
+                    if (option == JOptionPane.OK_OPTION) {
+                        controller.doUpdate(getData());
+                        NouveauLivre();
+                        JOptionPane.showMessageDialog(null, "Vous avez modifié un livre", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "La section doit être adulte ou jeunesse", "Attention", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "ISBN non valide", "Attention", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
 

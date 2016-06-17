@@ -17,6 +17,8 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jof on 02/04/2016.
@@ -67,6 +69,7 @@ public class FGestionDonnees extends AppFrame {
     private TypeDonnees chx;
     private boolean check = true;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private Pattern patternCP = Pattern.compile("^(\\d{4})$");
 
     private enum TypeDonnees {AUTEUR, EDITEUR, LOCALISATION, LOCALITE, SUJET, THEME}
 
@@ -170,9 +173,15 @@ public class FGestionDonnees extends AppFrame {
                             break;
                         case LOCALITE:
                             if (Exist() != 1) {
-                                controller.doSave(getDataLocalite());
-                                modellocalite = controller.getModelLoc();
-                                JOptionPane.showMessageDialog(null, "Vous avez ajouté une localité", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                Matcher matcherCP = patternCP.matcher(TDonnee2.getText());
+                                boolean cp = matcherCP.matches();
+                                if (cp){
+                                    controller.doSave(getDataLocalite());
+                                    modellocalite = controller.getModelLoc();
+                                    JOptionPane.showMessageDialog(null, "Vous avez ajouté une localité", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Code postal non valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                                }
                             }
                             break;
                         case SUJET:
@@ -243,9 +252,15 @@ public class FGestionDonnees extends AppFrame {
                         if (Exist() !=1){
                             option = JOptionPane.showConfirmDialog(null, "Vous allez modifier une localité", "Attention", JOptionPane.YES_NO_OPTION);
                             if (option == JOptionPane.OK_OPTION) {
-                                controller.doUpdate(getDataLocalite());
-                                modellocalite = controller.getModelLoc();
-                                JOptionPane.showMessageDialog(null, "Vous avez modifié une localité", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                Matcher matcherCP = patternCP.matcher(TDonnee2.getText());
+                                boolean cp = matcherCP.matches();
+                                if (cp){
+                                    controller.doUpdate(getDataLocalite());
+                                    modellocalite = controller.getModelLoc();
+                                    JOptionPane.showMessageDialog(null, "Vous avez modifié une localité", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Code postal non valide", "Attention", JOptionPane.WARNING_MESSAGE);
+                                }
                             }
                         }
                         break;
