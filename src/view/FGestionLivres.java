@@ -2,10 +2,19 @@ package view;
 
 import controller.Controller;
 import model.book.*;
+import model.loan.Emprunt;
+import model.reader.Lecteur;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +32,8 @@ class FGestionLivres extends AppFrame {
     private DefaultListModel<Theme> modeltheme;
     private DefaultListModel<Auteur> modelauteur;
     private DefaultListModel<Sujet> modelsujet;
+    private DefaultListModel<Emprunt> listEmprunt = new DefaultListModel<>();
+    private DefaultListModel<Lecteur> listLecteur = new DefaultListModel<>();
     private DefaultListModel<Auteur> listlivreauteur = new DefaultListModel<>();
     private DefaultListModel<Sujet> listlivresujet = new DefaultListModel<>();
     private DefaultListModel<Livre> listlivreemprunt = new DefaultListModel<>();
@@ -36,7 +47,7 @@ class FGestionLivres extends AppFrame {
     private JComboBox CBEditeur;
     private JLabel LTheme;
     private JLabel LLocalisation;
-    private JTextField TISBN;
+    private JFormattedTextField TISBN;
     private JTextField TTitreLivre;
     private JLabel LEditeur;
     private JComboBox CBTheme;
@@ -73,6 +84,7 @@ class FGestionLivres extends AppFrame {
     private JTextField TCote;
     private int pos = 0;
     private boolean check=true;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @Override
     JPanel getContainer() {
@@ -100,7 +112,15 @@ class FGestionLivres extends AppFrame {
         modelauteur = controller.getModelAuteur();
         modelsujet = controller.getModelSujet();
         modeltheme = controller.getModelTheme();
-        Statut = new String[]{"Disponible", "En prêt", "Réservé"};
+        Statut = new String[]{"Disponible", "En prêt"};
+
+        try {
+            MaskFormatter mf = new MaskFormatter("#############");
+            DefaultFormatterFactory form = new DefaultFormatterFactory(mf);
+            TISBN.setFormatterFactory(form);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         RemplirTableLivre();
         RemplirCBs();
@@ -359,6 +379,7 @@ class FGestionLivres extends AppFrame {
     }
 
     private void RemplissageChamps(int p) {
+        int IdLoan = controller.doFindLoan(String.valueOf(modellivre.getElementAt(p).getIdLivre()));
         TidLivre.setText(String.valueOf((modellivre.getElementAt(p).getIdLivre())));
         TISBN.setText(modellivre.getElementAt(p).getIsbnLivre());
         TTitreLivre.setText(modellivre.getElementAt(p).getTitreLivre());
@@ -382,6 +403,22 @@ class FGestionLivres extends AppFrame {
         }
         RemplirTableLivreAuteur(String.valueOf(modellivre.getElementAt(p).getIdLivre()));
         RemplirTableLivreSujet(String.valueOf(modellivre.getElementAt(p).getIdLivre()));
+        if ( IdLoan != -1){
+            listEmprunt = controller.getModelEmprunt();
+            for (int i = 0; i < listEmprunt.size(); i++){
+                if (IdLoan==listEmprunt.getElementAt(i).getIdEmprunt()){
+                    listLecteur = controller.getModel();
+                    for (int j =0; j < listLecteur.size(); j++ ){
+                        if (listLecteur.getElementAt(j).getIdLecteur()==listEmprunt.getElementAt(i).getLecteur()){
+                            JOptionPane.showMessageDialog(null, "Ce livre est chez " +
+                                    listLecteur.getElementAt(j).getNomLecteur() + " " +
+                                    listLecteur.getElementAt(j).getPrenomLecteur() + " et doit rentrer le " +
+                                    listEmprunt.getElementAt(i).getDateRetour().format(formatter), "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void RechercheLivre(){
@@ -556,14 +593,6 @@ class FGestionLivres extends AppFrame {
             }
         }
     }
-
-    //se déconnecter et revenir à Fdépart
-    /*private void Deconnexion(){
-        FGestionLivres frame = FGestionLivres.this;
-        frame.close();
-        Fdepart start = new Fdepart();
-        start.setVisible(true);
-    }*/
 
     //Quitter le programme
     private void Quitter (){

@@ -85,8 +85,6 @@ public class FGestionDonnees extends AppFrame {
         this.setJMenuBar(MenuBar);
         JMenu fichier = new JMenu("Fichier");
         MenuBar.add(fichier);
-        /*JMenuItem Deco = new JMenuItem("Se déconnecter");
-        fichier.add(Deco);*/
         JMenuItem Exit = new JMenuItem("Quitter");
         fichier.add(Exit);
         JMenu choix = new JMenu("Choix du type de données");

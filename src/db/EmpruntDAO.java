@@ -95,9 +95,7 @@ public class EmpruntDAO extends DAO<Emprunt> {
     }
 
     @Override
-    public List<Emprunt> chargerPar(int chx, String condition) {
-        return null;
-    }
+    public List<Emprunt> chargerPar(int chx, String condition) {return null;}
 
     public int ChercherRetour(String xIdEmprunt, String xIdLivre) {
         int retour = -1;
@@ -143,6 +141,21 @@ public class EmpruntDAO extends DAO<Emprunt> {
         } catch (SQLException e) {
             logger.log(Level.WARNING, e.getMessage());
             return -1;
+        }
+    }
+
+    public int Rechercher(String xIdLivre){
+        int xIdEmprunt = -1;
+        String sql = String.format("SELECT Fk_Emprunt FROM t_empruntlivre WHERE Retour = 0 AND Fk_Livre = %s", xIdLivre);
+        try (ResultSet rs = db.getConnection().prepareStatement(sql).executeQuery()) {
+            logger.log(Level.INFO, "query is " + sql);
+            while (rs.next()) {
+                xIdEmprunt = rs.getInt(1);
+            }
+            return xIdEmprunt;
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, e.getMessage());
+            return xIdEmprunt;
         }
     }
 }

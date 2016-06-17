@@ -74,7 +74,6 @@ class FGestionLecteurs extends AppFrame {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private LocalDate date;
     private Pattern patternPhone = Pattern.compile("^(\\d{3,4})(\\d{2})(\\d{2})(\\d{2})$");
-    //private Pattern patternMail = Pattern.compile("^(([a-zA-Z0-9]+)((\\.|_|-)?([a-zA-Z0-9]+))?(@)([a-zA-Z0-9]+)\\.([a-zA-Z]{2,4}))$");
     private Pattern patternMail = Pattern.compile("^((\\w)+(\\.|_|-)?(\\w)+)?(@)(\\w)+\\.([a-zA-Z]{2,4})$");
 
     @Override
