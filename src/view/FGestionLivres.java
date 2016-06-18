@@ -85,6 +85,7 @@ class FGestionLivres extends AppFrame {
     private JLabel LCote;
     private JTextField TCote;
     private int pos = 0;
+    private int flag = 0;
     private boolean check=true;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private Pattern patternISBN = Pattern.compile("^(\\d{13})$");
@@ -162,12 +163,15 @@ class FGestionLivres extends AppFrame {
             @Override
             public void windowGainedFocus(WindowEvent e) {
                 super.windowGainedFocus(e);
-                modelediteur = controller.getModelEditeur();
-                modeltheme = controller.getModelTheme();
-                modellocalisation = controller.getModelLocalisation();
-                modelauteur = controller.getModelAuteur();
-                modelsujet = controller.getModelSujet();
-                RemplirCBs();
+                if (flag != 1) {
+                    modelediteur = controller.getModelEditeur();
+                    modeltheme = controller.getModelTheme();
+                    modellocalisation = controller.getModelLocalisation();
+                    modelauteur = controller.getModelAuteur();
+                    modelsujet = controller.getModelSujet();
+                    RemplirCBs();
+                }
+                flag = 0;
             }
         });
     }
@@ -430,6 +434,7 @@ class FGestionLivres extends AppFrame {
                     listLecteur = controller.getModel();
                     for (int j =0; j < listLecteur.size(); j++ ){
                         if (listLecteur.getElementAt(j).getIdLecteur()==listEmprunt.getElementAt(i).getLecteur()){
+                            flag = 1;
                             JOptionPane.showMessageDialog(null, "Ce livre est chez " +
                                     listLecteur.getElementAt(j).getNomLecteur() + " " +
                                     listLecteur.getElementAt(j).getPrenomLecteur() + " et doit rentrer le " +

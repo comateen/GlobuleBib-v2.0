@@ -182,6 +182,24 @@ class FGestionLecteurs extends AppFrame {
         return exist;
     }
 
+    private int Exist2(){
+        int exist = 0;
+        for (int i=0; i<model.size(); i++){
+            if (TNomLecteur.getText().equals(model.getElementAt(i).getNomLecteur()) &&
+                    TPrenomLecteur.getText().equals(model.getElementAt(i).getPrenomLecteur()) &&
+                    TDNLecteur.getText().equals(model.getElementAt(i).getDNLecteur().format(formatter).toString()) &&
+                    TAdresseLecteur.getText().equals(model.getElementAt(i).getAdresseLecteur()) &&
+                    TNumTel.getText().equals(model.getElementAt(i).getTelLecteur()) &&
+                    TMail.getText().equals(model.getElementAt(i).getMailLecteur()) &&
+                    TDRLecteur.getText().equals(model.getElementAt(i).getDRLecteur().format(formatter).toString()) &&
+                    TCategorie.getText().equals(model.getElementAt(i).getCategorieLecteur())){
+                JOptionPane.showMessageDialog(null, "Ce lecteur existe déjà", "Attention", JOptionPane.WARNING_MESSAGE);
+                exist = 1;
+            }
+        }
+        return exist;
+    }
+
     private void AjoutLecteur(){
         Matcher matcherPhone = patternPhone.matcher(TNumTel.getText());
         boolean phone = matcherPhone.matches();
@@ -235,7 +253,7 @@ class FGestionLecteurs extends AppFrame {
                 if (phone) {
                     if (mail || TMail.getText().isEmpty()){
                         if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
-                            if (Exist() != 1){
+                            if (Exist2() != 1){
                                 int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
                                 if (option == JOptionPane.OK_OPTION) {
                                     try {
@@ -427,7 +445,6 @@ class FGestionLecteurs extends AppFrame {
                 !TDNLecteur.getText().isEmpty() &&
                 !TAdresseLecteur.getText().isEmpty() &&
                 !TNumTel.getText().isEmpty() &&
-                //!TMail.getText().isEmpty() &&
                 !TDILecteur.getText().isEmpty() &&
                 !TCategorie.getText().isEmpty()){
             check = false;
