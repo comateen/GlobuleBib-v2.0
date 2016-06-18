@@ -26,8 +26,6 @@ public class Controller {
     private LivreDAO livreDAO = new LivreDAO();
     private EmpruntDAO empruntDAO = new EmpruntDAO();
 
-    //public DefaultListModel<Auteur> doFindAuteur(String Condition){return (DefaultListModel) Adao.ChargerPar(Condition);}
-
     public void doSave(Lecteur reader) {
         lecteurDAO.ajouter(reader);
     }
@@ -74,65 +72,56 @@ public class Controller {
 
     public DefaultListModel<Lecteur> getModel(){
         List<Lecteur> lecteurs = lecteurDAO.charger();
-        DefaultListModel<Lecteur> model = new DefaultListModel<>(); //TODO Pas plus simple de créer ton propre model ? Je vais regarder ça dans mon exemple plus tard
-        lecteurs.forEach(model::addElement); //méthode possible grâce à java8 mais ne fonctionne pas
-        //for (Lecteur person:lecteurs) model.addElement(person);
+        DefaultListModel<Lecteur> model = new DefaultListModel<>();
+        lecteurs.forEach(model::addElement);
         return model;
     }
     public DefaultListModel<Auteur> getModelAuteur(){
         List<Auteur> auteurs = auteurDAO.charger();
         DefaultListModel<Auteur> model = new DefaultListModel<>();
         auteurs.forEach(model::addElement);
-        //for (Auteur person:auteurs) model.addElement(person);
         return model;
     }
     public DefaultListModel<Editeur> getModelEditeur(){
         List<Editeur> editeurs = editeurDAO.charger();
         DefaultListModel<Editeur> model = new DefaultListModel<>();
         editeurs.forEach(model::addElement);
-        //for (Editeur collec:collections) model.addElement(collec);
         return model;
     }
     public DefaultListModel<Localisation> getModelLocalisation(){
         List<Localisation> localisations = localisationDAO.charger();
         DefaultListModel<Localisation> model = new DefaultListModel<>();
         localisations.forEach(model::addElement);
-        //for (Localisation localisation:localisations) model.addElement(localisation);
         return model;
     }
     public DefaultListModel<Localite> getModelLoc(){
         List<Localite> localites = localiteDAO.charger();
         DefaultListModel<Localite> model = new DefaultListModel<>();
         localites.forEach(model::addElement);
-        //for (Localite localite:localites) model.addElement(localite);
         return model;
     }
     public DefaultListModel<Sujet> getModelSujet(){
         List<Sujet> sujets = sujetDAO.charger();
         DefaultListModel<Sujet> model = new DefaultListModel<>();
         sujets.forEach(model::addElement);
-        //for (Sujet sujet:sujets) model.addElement(sujet);
         return model;
     }
     public DefaultListModel<Theme> getModelTheme(){
         List<Theme> themes = themeDAO.charger();
         DefaultListModel<Theme> model = new DefaultListModel<>();
         themes.forEach(model::addElement);
-        //for (Theme theme:themes) model.addElement(theme);
         return model;
     }
     public DefaultListModel<Utilisateur> getModelUtilisateur(){
         List<Utilisateur> users = utilisateurDAO.charger();
         DefaultListModel<Utilisateur> model = new DefaultListModel<>();
         users.forEach(model::addElement);
-        //for (Utilisateur u:users) model.addElement(u);
         return model;
     }
     public DefaultListModel<Livre> getModelLivre(){
         List<Livre> livres = livreDAO.charger();
         DefaultListModel<Livre> model = new DefaultListModel<>();
         livres.forEach(model::addElement);
-        //for (Livre book:livres) model.addElement(book);
         return  model;
     }
     public DefaultListModel<Emprunt> getModelEmprunt(){
@@ -146,21 +135,18 @@ public class Controller {
         List<Auteur> auteurs = auteurDAO.chargerPar(0, condition);
         DefaultListModel<Auteur> model = new DefaultListModel<>();
         auteurs.forEach(model::addElement);
-        //for (Auteur person:auteurs) model.addElement(person);
         return model;
     }
     public DefaultListModel<Sujet> doFindSujet(String condition) {
         List<Sujet> sujets = sujetDAO.chargerPar(0, condition);
         DefaultListModel<Sujet> model = new DefaultListModel<>();
         sujets.forEach(model::addElement);
-        //for (Sujet sujet:sujets) model.addElement(sujet);
         return model;
     }
     public DefaultListModel<Livre> doFindLivre(int chx, String condition) {
         List<Livre> livres = livreDAO.chargerPar(chx, condition);
         DefaultListModel<Livre> model = new DefaultListModel<>();
         livres.forEach(model::addElement);
-        //for (Livre book:livres) model.addElement(book);
         return  model;
     }
     public DefaultListModel<Livre> doFindLivrePeriode(String debut, String fin){

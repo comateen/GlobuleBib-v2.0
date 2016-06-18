@@ -11,9 +11,6 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -62,9 +59,6 @@ public class FGestionDonnees extends AppFrame {
     private JScrollPane Scroll;
     private JTextField Tid;
     private JPanel PannelTable;
-    private Statement st = null;
-    private ResultSet rs = null;
-    private Connection con = null;
     private int pos = 0;
     private TypeDonnees chx;
     private boolean check = true;
@@ -119,7 +113,6 @@ public class FGestionDonnees extends AppFrame {
         localite.addActionListener(actionEvent -> ChxLocalite());
         sujet.addActionListener(actionEvent -> ChxSujet());
         themes.addActionListener(actionEvent -> ChxThemes());
-        //Deco.addActionListener(actionEvent -> Deconnexion());
         Exit.addActionListener(actionEvent -> Quitter());
 
         BPremier.addActionListener(actionEvent -> Premier());
@@ -662,12 +655,6 @@ public class FGestionDonnees extends AppFrame {
         }
     }
 
-    private void NettoyerTable() {
-        for (int i = TableDonnees.getRowCount() - 1; i >= 0; i--) {
-            TDonneesModel.removeRow(i);
-        }
-    }
-
     private void Nettoyerchamps() {
         Tid.setText("");
         TDonnee1.setText("");
@@ -903,19 +890,9 @@ public class FGestionDonnees extends AppFrame {
         }
     }
 
-    //se déconnecter et revenir à Fdépart
-    /*private void Deconnexion() {
-        FGestionDonnees frame = FGestionDonnees.this;
-        frame.close();
-        Fdepart start = new Fdepart();
-        start.setVisible(true);
-    }*/
-
     //Quitter le programme
     private void Quitter() {
         System.exit(0);
     }
-
-
 
 }

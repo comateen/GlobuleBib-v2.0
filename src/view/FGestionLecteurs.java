@@ -91,8 +91,6 @@ class FGestionLecteurs extends AppFrame {
         MenuBar.add(fichier);
         JMenuItem nouveau = new JMenuItem("Nouveau");
         fichier.add(nouveau);
-        /*JMenuItem Deco = new JMenuItem("Se déconnecter");
-        fichier.add(Deco);*/
         JMenuItem Exit = new JMenuItem("Quitter");
         fichier.add(Exit);
         model = controller.getModel();
@@ -111,7 +109,6 @@ class FGestionLecteurs extends AppFrame {
 
         //Les différents listener nécessaire
         nouveau.addActionListener(actionEvent -> Nettoyerchamps());
-        //Deco.addActionListener(actionEvent -> Deconnexion());
         Exit.addActionListener(actionEvent -> Quitter());
         BInscription.addActionListener(actionEvent -> CalculDateInsription());
         BRenouvellement.addActionListener(actionEvent -> CalculDateRenouvellement());
@@ -401,7 +398,6 @@ class FGestionLecteurs extends AppFrame {
         TDNLecteur.setText("");
         TAdresseLecteur.setText("");
         TCP.setText("");
-        //CB
         TNumTel.setText("");
         TMail.setText("");
         TDILecteur.setText("");
@@ -452,16 +448,6 @@ class FGestionLecteurs extends AppFrame {
             check = true;
         }
     }
-
-    //Listeners
-
-    //se déconnecter et revenir à Fdépart
-    /*private void Deconnexion(){
-        FGestionLecteurs frame = FGestionLecteurs.this;
-        frame.close();
-        Fdepart start = new Fdepart();
-        start.setVisible(true);
-    }*/
 
     //Quitter le programme
     private void Quitter() {

@@ -46,8 +46,6 @@ public class LivreDAO extends DAO<Livre>{
         } catch (SQLException e) {
             logger.log(Level.WARNING, e.getMessage());
         }
-        //TODO essayer de le mettre dans auteurdao et sujetdao
-        //for (Auteur a:book.getAuteurs())
         for (int j = 0; j < book.getAuteurs().size(); j++){
             String sql2 = "INSERT INTO t_livreauteur(Fk_Livre, Fk_Auteur) VALUES (?,?)";
             try (PreparedStatement st = db.getConnection().prepareStatement(sql2, PreparedStatement.NO_GENERATED_KEYS)){
@@ -74,7 +72,6 @@ public class LivreDAO extends DAO<Livre>{
 
     @Override
     public void modifier(Livre book) {
-        //FIXME est-ce là aussi le bon DAO ?
         String sqldel = "DELETE FROM t_livreauteur WHERE Fk_Livre = ?";
         try (PreparedStatement st = db.getConnection().prepareStatement(sqldel)){
             st.setInt(1, book.getIdLivre());
@@ -136,7 +133,6 @@ public class LivreDAO extends DAO<Livre>{
 
     @Override
     public void supprimer(Livre book) {
-        //FIXME est-ce le bon DAO ?
         String sql2 = "DELETE FROM t_livreauteur WHERE Fk_Livre = ?";
         try (PreparedStatement st = db.getConnection().prepareStatement(sql2)){
             st.setInt(1, book.getIdLivre());

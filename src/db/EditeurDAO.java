@@ -75,6 +75,6 @@ public class EditeurDAO extends DAO<Editeur>{
     @Override
     public List<Editeur> chargerPar(int chx, String condition) {
         return null;
-    } // --> pas encore utiliser je dois la faire
+    }
 
 }

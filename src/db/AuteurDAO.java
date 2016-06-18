@@ -16,12 +16,11 @@ public class AuteurDAO extends DAO<Auteur>{
     public static final String COL_FIRST_NAME = "Nom_Auteur";
     public static final String COL_LAST_NAME = "Prenom_Auteur";
     public static final String COL_BIRTH_DATE = "DN_Auteur";
-    public static final String COL_DD_DATE = "DD_Auteur";
 
     @Override
     public void ajouter(Auteur a){
         String sql = "INSERT INTO t_auteurs(Nom_Auteur, Prenom_Auteur, DN_Auteur) VALUES (?, ?, ?)";
-        try (PreparedStatement st = db.getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){ //je reste sur le multi try, j'y vois plus clair comme ça
+        try (PreparedStatement st = db.getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
             st.setString(1, a.getNomAuteur());
             st.setString(2, a.getPrenomAuteur());
             st.setDate(3, Date.valueOf(a.getDnAuteur()));

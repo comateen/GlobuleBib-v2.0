@@ -10,8 +10,6 @@ import javax.swing.*;
  */
 
 public class Fdepart extends AppFrame{
-    private JLabel LTitre;
-    private JLabel LUserName;
     private JTextField TUserName;
     private JPasswordField TPassWord;
     private JButton BConnexion;
@@ -28,7 +26,7 @@ public class Fdepart extends AppFrame{
         super("GlobuleBib - Accueil", null);
         Controller controller = new Controller();
         init(); //initialise la fenêtre.
-        //this.setLocation(200,200);
+        this.setLocation(350,300);
         modeluser = controller.getModelUtilisateur();
 
         BConnexion.addActionListener(actionEvent -> {

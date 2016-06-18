@@ -21,7 +21,7 @@ public class Utilisateur implements Comparable<Utilisateur>{
         MotDePasse="";
     }
 
-    public Utilisateur(String Nom, String Prenom, String Login, String MDP){ //FIXME pitié, ne me dit pas que tu passes le mdp en clair…
+    public Utilisateur(String Nom, String Prenom, String Login, String MDP){
         NomUtilisateur=Nom;
         PrenomUtilisateur=Prenom;
         LoginUtilisateur=Login;

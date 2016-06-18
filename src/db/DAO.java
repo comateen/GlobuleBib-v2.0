@@ -7,7 +7,7 @@ import java.util.logging.Logger;
  * Created by jof on 05/04/2016.
  */
 
-// Cette classe abstraite me sert à centraliser ls appels aux différents DAO
+// Cette classe abstraite me sert à centraliser lzs appels aux différents DAO
 abstract class DAO<T> {
     static Database db = Database.getInstance();
     static final Logger logger = Logger.getLogger("DBLOG");

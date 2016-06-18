@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Livre implements Comparable<Livre>{
     private String isbnLivre, titreLivre, sectionLivre, coteLivre;
-    private int idLivre, idAuteur, idEditeur, idLocalisation, idSujet, idTheme, statutLivre;
+    private int idLivre, idEditeur, idLocalisation, idTheme, statutLivre;
     private List<Auteur> auteurs;
     private List<Sujet> sujets;
 
@@ -89,20 +89,12 @@ public class Livre implements Comparable<Livre>{
         return idLivre;
     }
 
-    public int getIdAuteur() {
-        return idAuteur;
-    }
-
     public int getIdEditeur() {
         return idEditeur;
     }
 
     public int getIdLocalisation() {
         return idLocalisation;
-    }
-
-    public int getIdSujet() {
-        return idSujet;
     }
 
     public int getIdTheme() {
@@ -144,20 +136,12 @@ public class Livre implements Comparable<Livre>{
         idLivre = ID;
     }
 
-    public void setIdAuteur(int IdAut) {
-        idAuteur = IdAut;
-    }
-
     public void setIdEditeur(int IdCol) {
         idEditeur = IdCol;
     }
 
     public void setIdLocalisation(int IdLoca) {
         idLocalisation = IdLoca;
-    }
-
-    public void setIdSujet(int IdSuj) {
-        idSujet = IdSuj;
     }
 
     public void setIdTheme(int IdThem) {
