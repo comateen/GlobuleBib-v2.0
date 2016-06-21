@@ -70,6 +70,7 @@ class FGestionLecteurs extends AppFrame {
     private JButton BRenouvellement;
     private JPanel PannelGeneral;
     private int pos=0;
+    private int flag = 0;
     private boolean check = true;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private LocalDate date;
@@ -132,8 +133,11 @@ class FGestionLecteurs extends AppFrame {
             @Override
             public void windowGainedFocus(WindowEvent e) {
                 super.windowGainedFocus(e);
-                modellocalite = controller.getModelLoc();
-                RemplirCBLoc();
+                if (flag != 1) {
+                    modellocalite = controller.getModelLoc();
+                    RemplirCBLoc();
+                }
+                flag = 0;
             }
         });
     }
@@ -243,6 +247,7 @@ class FGestionLecteurs extends AppFrame {
         boolean phone = matcherPhone.matches();
         Matcher matcherMail = patternMail.matcher(TMail.getText());
         boolean mail = matcherMail.matches();
+        CheckChamps();
         if (check) {
             JOptionPane.showMessageDialog(null, "Certains champs ne sont pas complété", "Attention", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -252,6 +257,7 @@ class FGestionLecteurs extends AppFrame {
                         if (TCategorie.getText().toLowerCase().equals("adulte") || TCategorie.getText().toLowerCase().equals("jeunesse")){
                             if (Exist2() != 1){
                                 int option = JOptionPane.showConfirmDialog(null, "Vous allez modifier un lecteur", "Attention", JOptionPane.YES_NO_OPTION);
+                                flag = 1;
                                 if (option == JOptionPane.OK_OPTION) {
                                     try {
                                         controller.doUpdate(getData());

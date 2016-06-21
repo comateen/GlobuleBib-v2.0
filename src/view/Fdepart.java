@@ -14,6 +14,8 @@ public class Fdepart extends AppFrame{
     private JPasswordField TPassWord;
     private JButton BConnexion;
     private JPanel Container;
+    private JLabel LTitre;
+    private JLabel LUserName;
     private DefaultListModel<Utilisateur> modeluser;
     private boolean check = false;
 
