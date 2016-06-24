@@ -109,7 +109,7 @@ class FGestionLecteurs extends AppFrame {
         }
 
         //Les différents listener nécessaire
-        nouveau.addActionListener(actionEvent -> Nettoyerchamps());
+        nouveau.addActionListener(actionEvent -> NouveauLivre());
         Exit.addActionListener(actionEvent -> Quitter());
         BInscription.addActionListener(actionEvent -> CalculDateInsription());
         BRenouvellement.addActionListener(actionEvent -> CalculDateRenouvellement());
@@ -410,6 +410,19 @@ class FGestionLecteurs extends AppFrame {
         TDRLecteur.setText("");
         TDELecteur.setText("");
         TCategorie.setText("");
+    }
+
+    private void NouveauLivre(){
+        Nettoyerchamps();
+        try {
+            MaskFormatter mf = new MaskFormatter("##-##-####");
+            DefaultFormatterFactory form = new DefaultFormatterFactory(mf);
+            TDNLecteur.setFormatterFactory(form);
+            TDILecteur.setFormatterFactory(form);
+            TDRLecteur.setFormatterFactory(form);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void RemplirCBLoc(){
